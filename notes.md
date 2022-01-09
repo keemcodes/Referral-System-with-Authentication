@@ -23,7 +23,14 @@ Steps
 
 # API Endpoints
 * /authorize
-
+  * User will pass client_id and client_secret into the body of the POST request
+  * We check our DB if a user with the id and secret exists, if so we prompt the user to login
+  * After a successful login, we generate a token and store it to our db for later review
 * /token
+
+* /authenticate
+
+# Action Flow
+* 
 
 
