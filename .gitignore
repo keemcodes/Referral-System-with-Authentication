@@ -1,0 +1,7 @@
+/server/node_modules
+/server/public
+/server/old-files
+/server/notes
+/server/tests
+/server/views
+/server/.env
