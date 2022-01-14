@@ -9,7 +9,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json(req.user);
 });
 
-router.post('/signup', (req, res) => {
+router.post('/register', (req, res) => {
   models.User.create({
     email: req.body.email,
     password: req.body.password,
@@ -27,7 +27,7 @@ router.get('/logout', (req, res) => {
   res.json('logout successful');
 });
 
-router.get('/user_data', (req, res) => {
+router.get('/authenticate', (req, res) => {
     if (!req.user) {
       res.json({});
     } else {

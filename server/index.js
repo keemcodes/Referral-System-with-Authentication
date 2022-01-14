@@ -25,9 +25,14 @@ app.use(passport.session());
 // Database testing
 const { dbObject } = require('./config/dbObject')
 // dbObject.dropTables();
-// dbObject.sync()
-// dbObject.forceSync()
 // dbObject.addInitialProjects();
+dbObject.buildRelationshipsR()
+// dbObject.forceSync()
+dbObject.sync()
+
+for(let i = 0; i < 10; i++) {
+  dbObject.addUser2()
+}
 
 
 

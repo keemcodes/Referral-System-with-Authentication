@@ -8,9 +8,26 @@ function randomName() {
 }
 async function addUser() {
   try {
-      const akeem2 = await User.create({ 
+      const akeem2 = await models.User.create({ 
           firstName: randomName(),
           lastName: randomName(), 
+      });
+      console.log("Random's auto-generated ID:", akeem2.id);
+
+  }
+  catch (error) {
+      console.error('Unable to insert here is why:', error);
+
+  }
+
+}
+async function addUser2() {
+  try {
+      const akeem2 = await models.User.create({ 
+          email: randomName() + "@test.com",
+          password: "password", 
+          referred: 0,
+           
       });
       console.log("Random's auto-generated ID:", akeem2.id);
 
@@ -183,12 +200,34 @@ try {
     });
     console.log("initial made");
 
-}
-catch (error) {
-    console.error('Unable to insert here is why:', error);
+  }
+  catch (error) {
+      console.error('Unable to insert here is why:', error);
 
+  }
 }
+
+function buildRelationships() {
+  models.User.hasMany(models.Referral, { 
+    foreignKey: "referral_id",
+    as: "referrals" 
+  });
+  models.Referral.belongsTo(models.User, {
+      foreignKey: "referral_id",
+      as: "tutorial",
+  })
 }
+
+function buildRelationshipsR() {
+  models.User.hasMany(models.Referral, { 
+    as: "referrals" 
+  });
+  models.Referral.belongsTo(models.User, {
+      foreignKey: "referral_id",
+      as: "tutorial",
+  })
+}
+
 async function findProjects() {
   return await models.Projects.findAll({ 
     include: [{
@@ -240,4 +279,4 @@ await db.drop();
 console.log("All tables dropped!");
 }
 
-module.exports.dbObject = { findProjects, findContacts, createContact, sync, dropTables, addInitialProjects, authenticate }
+module.exports.dbObject = { findProjects, findContacts, createContact, sync, forceSync, dropTables, addInitialProjects, addUser2, buildRelationships, buildRelationshipsR, authenticate }

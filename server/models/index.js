@@ -1,5 +1,4 @@
 const User = require('./users')
-const Contacts = require('./contacts')
-const { Projects, Languages } = require('./projects')
+const Referral = require('./referrals')
 
-module.exports = { User, Contacts, Projects, Languages }
+module.exports = { User, Referral }
