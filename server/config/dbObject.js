@@ -228,6 +228,10 @@ function buildRelationshipsR() {
   })
 }
 
+async function findReferrals(referralId) {
+  return await models.User.findByPk(referralId, { include: ['referrals']})
+}
+
 async function findProjects() {
   return await models.Projects.findAll({ 
     include: [{
@@ -292,4 +296,4 @@ await db.drop();
 console.log("All tables dropped!");
 }
 
-module.exports.dbObject = { findProjects, findContacts, createContact, createUser, createReferral, sync, forceSync, dropTables, addInitialProjects, addUser2, buildRelationships, buildRelationshipsR, authenticate }
+module.exports.dbObject = { findProjects, findContacts, findReferrals, createContact, createUser, createReferral, sync, forceSync, dropTables, addInitialProjects, addUser2, buildRelationships, buildRelationshipsR, authenticate }
