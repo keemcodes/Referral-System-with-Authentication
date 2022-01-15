@@ -26,12 +26,18 @@ app.use(passport.session());
 const { dbObject } = require('./config/dbObject')
 // dbObject.dropTables();
 // dbObject.addInitialProjects();
-dbObject.buildRelationshipsR()
+dbObject.buildRelationships()
 // dbObject.forceSync()
 dbObject.sync()
+async function awaitingFunc() {
 
+  await dbObject.createUser().then( (returned) => dbObject.createReferral(returned.id))
+}
+// awaitingFunc()
 for(let i = 0; i < 10; i++) {
-  dbObject.addUser2()
+  // dbObject.addUser2()
+  awaitingFunc()
+
 }
 
 

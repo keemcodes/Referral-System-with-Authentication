@@ -209,11 +209,11 @@ try {
 
 function buildRelationships() {
   models.User.hasMany(models.Referral, { 
-    foreignKey: "referral_id",
+    foreignKey: "referrer_id",
     as: "referrals" 
   });
   models.Referral.belongsTo(models.User, {
-      foreignKey: "referral_id",
+      foreignKey: "referrer_id",
       as: "tutorial",
   })
 }
@@ -223,7 +223,7 @@ function buildRelationshipsR() {
     as: "referrals" 
   });
   models.Referral.belongsTo(models.User, {
-      foreignKey: "referral_id",
+      foreignKey: "referrer_id",
       as: "tutorial",
   })
 }
@@ -267,11 +267,24 @@ async function forceSync() {
 }
 
 async function createContact(name, email, message) {
-await models.Contacts.create({ 
-  name: name,
-  email: email,
-  message: message,
-});
+  await models.Contacts.create({ 
+    name: name,
+    email: email,
+    message: message,
+  });
+}
+async function createReferral(user) {
+  return await models.Referral.create({ 
+    referrer_id: user
+  });
+}
+
+async function createUser() {
+  return await models.User.create({ 
+    email: randomName() + "@test.com",
+    password: "password", 
+    referred: 0,
+  });
 }
 
 async function dropTables() {
@@ -279,4 +292,4 @@ await db.drop();
 console.log("All tables dropped!");
 }
 
-module.exports.dbObject = { findProjects, findContacts, createContact, sync, forceSync, dropTables, addInitialProjects, addUser2, buildRelationships, buildRelationshipsR, authenticate }
+module.exports.dbObject = { findProjects, findContacts, createContact, createUser, createReferral, sync, forceSync, dropTables, addInitialProjects, addUser2, buildRelationships, buildRelationshipsR, authenticate }
