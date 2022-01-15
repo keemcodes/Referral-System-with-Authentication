@@ -232,6 +232,18 @@ async function findReferrals(referralId) {
   return await models.User.findByPk(referralId, { include: ['referrals']})
 }
 
+async function findReferralsByUserIdJSON() {
+
+  await findReferrals(2).then( (returned) => console.log(JSON.stringify(returned, null, 2)))
+}
+
+async function findReferralsByUserId() {
+
+  await findReferrals(2).then( (returned) => console.log(returned.get({plain:true})))
+}
+
+
+
 async function findProjects() {
   return await models.Projects.findAll({ 
     include: [{
@@ -269,7 +281,10 @@ async function forceSync() {
   });
   console.log("All models were synchronized successfully.");
 }
+async function createUserAndReferralTest() {
 
+  await createUser().then( (returned) => createReferral(returned.id))
+}
 async function createContact(name, email, message) {
   await models.Contacts.create({ 
     name: name,

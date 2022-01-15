@@ -29,35 +29,6 @@ const { dbObject } = require('./config/dbObject')
 dbObject.buildRelationships()
 // dbObject.forceSync()
 // dbObject.sync()
-async function awaitingFunc() {
-
-  await dbObject.createUser().then( (returned) => dbObject.createReferral(returned.id))
-}
-async function awaitingFunc2() {
-
-  await dbObject.createUser().then( (returned) => dbObject.createReferral(returned.id))
-}
-// awaitingFunc()
-// dbObject.createReferral(2);  
-// dbObject.createReferral(2);  
-// dbObject.createReferral(2);  
-// dbObject.createReferral(2);  
-async function awaitingFunc3() {
-
-  await dbObject.findReferrals(2).then( (returned) => console.log(JSON.stringify(returned, null, 2)))
-}
-
-async function awaitingFunc4() {
-
-  await dbObject.findReferrals(2).then( (returned) => console.log(returned.get({plain:true})))
-}
-awaitingFunc4()
-// for(let i = 0; i < 10; i++) {
-//   // dbObject.addUser2()
-//   awaitingFunc()
-
-// }
-
 
 
 //  Routing...
