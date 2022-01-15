@@ -20,11 +20,11 @@ const isAuthenticated = require('../config/isAuthenticated');
     //     res.status(200).json(result)
     //   }).catch(error => console.log(error))
     // })
-    router.get('/test', (req, res) => { 
-      dbObject.findContacts().then(result => {
-        res.status(200).json(result)
-      }).catch(error => console.log(error))
-    })
+    // router.get('/test', (req, res) => { 
+    //   dbObject.findContacts().then(result => {
+    //     res.status(200).json(result)
+    //   }).catch(error => console.log(error))
+    // })
 
   //   router.post('/formPost',
   //     body('name').not().isEmpty().trim().escape(),
