@@ -40,11 +40,11 @@ export default function CheckoutForm() {
     });
   }, [stripe]);
 
-  function verifyPayment(input) {
+  const verifyPayment = async (id) => {
     fetch("/confirm-payment", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ paymentId: input })
+        body: JSON.stringify({ paymentId: id })
     })
     .then((res) => res.json())
     .then((result) => {
