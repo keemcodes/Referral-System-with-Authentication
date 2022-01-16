@@ -41,7 +41,7 @@ export default function CheckoutForm() {
   }, [stripe]);
 
   const verifyPayment = async (id) => {
-    fetch("/confirm-payment", {
+    await fetch("/confirm-payment", {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({ paymentId: id })
