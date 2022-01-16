@@ -24,6 +24,7 @@ export default function CheckoutForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
+          verifyPayment(paymentIntent.id);
           setMessage("Payment succeeded!");
           break;
         case "processing":
@@ -38,6 +39,21 @@ export default function CheckoutForm() {
       }
     });
   }, [stripe]);
+
+  function verifyPayment(input) {
+    fetch("/confirm-payment", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({ paymentId: input })
+    })
+    .then((res) => res.json())
+    .then((result) => {
+        console.log(result)
+    })
+    .catch((error) => {
+        console.log(error)
+    })
+}
 
   const handleSubmit = async (e) => {
     e.preventDefault();

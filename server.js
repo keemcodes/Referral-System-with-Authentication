@@ -31,12 +31,25 @@ app.post("/create-payment-intent", async (req, res) => {
   });
 });
 
+app.post("/confirm-payment", async (req, res) => {
+  await stripe.paymentIntents.retrieve(
+    req.body.paymentId
+  ).then((paymentInfo) => {
+    console.log(paymentInfo.status) // will replace with function that updates the user in db
+    res.send(paymentInfo.status)
+  }).catch((error) => {
+    console.log(error)
+    res.send(error)
+  });
+});
+
+
 app.post("/confirm-payment-intent", async (req, res) => {
   // const { intent } = req.body;
   await stripe.paymentIntents.retrieve(
     req.body.intent
   ).then((test) => {
-    console.log(test.status)
+    console.log(test)
     res.send(test)
   }).catch((error) => {
     console.log(error)
