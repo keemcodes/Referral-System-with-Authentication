@@ -1,7 +1,6 @@
 const router = require('express').Router();
 const stripe = require("stripe")(process.env.stripe_key);
-require("./config")
-
+require("../config/config")
 
 const calculateOrderAmount = (items) => {
   // Replace this constant with a calculation of the order's amount
@@ -39,7 +38,6 @@ router.post("/confirm-payment", async (req, res) => {
   });
 });
 
-
 router.post("/confirm-payment-intent", async (req, res) => {
   // const { intent } = req.body;
   await stripe.paymentIntents.retrieve(
@@ -52,3 +50,5 @@ router.post("/confirm-payment-intent", async (req, res) => {
     res.send(error)
   });
 });
+
+module.exports = router;

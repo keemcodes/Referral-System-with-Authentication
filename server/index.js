@@ -3,7 +3,7 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const app = express()
-const port = process.env.PORT || 3001
+const port = process.env.PORT || 4242
 
 // Routes
 const routes = require('./routes')
@@ -26,9 +26,14 @@ app.use(passport.session());
 const { dbObject } = require('./config/dbObject')
 // dbObject.dropTables();
 // dbObject.addInitialProjects();
-dbObject.buildRelationships()
+dbObject.buildRelationshipsR()
 // dbObject.forceSync()
-// dbObject.sync()
+dbObject.sync()
+
+// for(let i = 0; i < 10; i++) {
+//   dbObject.addUser2()
+// }
+
 
 
 //  Routing...

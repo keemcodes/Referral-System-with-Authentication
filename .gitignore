@@ -5,3 +5,7 @@
 /server/tests
 /server/views
 /server/.env
+node_modules
+/client/node_modules
+/client/node_modules_old
+.env
