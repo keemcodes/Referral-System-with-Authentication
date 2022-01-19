@@ -3,6 +3,7 @@ import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import { AuthProvider } from "./Auth";
 
 import './App.css';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Main from "./routes/Main";
 import Checkout from "./routes/Checkout";
 import Access from "./routes/Access";
