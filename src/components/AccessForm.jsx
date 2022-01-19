@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 import { AuthContext } from '../Auth';
 
+import Button from 'react-bootstrap/Button';
+import Form from 'react-bootstrap/Form';
+
 export default function AccessForm() {
 
   const { setIsAuth } = useContext(AuthContext)
@@ -37,7 +40,30 @@ export default function AccessForm() {
   }
   return (
       <>
-          <div className="access-form">
+          <Form onSubmit={(e) => submit(e)}>
+            <Form.Group className="mb-3" controlId="email">
+              <Form.Label>Email address</Form.Label>
+              <Form.Control onChange={(e) => handle(e)} name='email' type="email" placeholder="Enter email" />
+              <Form.Text className="text-muted">
+                We'll never share your email with anyone else.
+              </Form.Text>
+            </Form.Group>
+
+            <Form.Group className="mb-3" controlId="password">
+              <Form.Label>Password</Form.Label>
+              <Form.Control onChange={(e) => handle(e)} name='password' type="password" placeholder="Password" />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="checkbox">
+              <Form.Check type="checkbox" label="Check me out" />
+            </Form.Group>
+            <Form.Text className="text-muted">
+                {response.id ? "Access Successful" : response}
+            </Form.Text>
+            <Button variant="primary" type="submit">
+              Submit
+            </Button>
+          </Form>      
+          {/* <div className="access-form">
               <div className="access-form-header">
                   <h2>Login</h2>
               </div>
@@ -55,7 +81,7 @@ export default function AccessForm() {
                       <p>{response.id ? "Access Successful" : response}</p>
                   </div>
               </form>
-          </div>
+          </div> */}
 
       </>
 

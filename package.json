@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "homepage": "http://localhost:3000/checkout",
+  "homepage": "http://localhost:3000/access",
   "proxy": "http://localhost:4242",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

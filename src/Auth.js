@@ -21,7 +21,7 @@ const AuthProvider = ({ children }) => {
         //             setIsAuth(false)
         //         }
         //     })
-        fetch("/api/auth/user_data", {
+        fetch("/api/auth/authenticate", {
             method: 'GET',
             headers: {'Content-Type': 'application/json'},
         })
