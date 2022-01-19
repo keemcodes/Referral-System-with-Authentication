@@ -22,6 +22,7 @@ export default function App() {
           <Route path="/access" element={<Access />} />
           <Route path="/plan" element={<PlanSelection />} />
           {/* <PrivateRoute path="/admin" element={<AdminRoute />} component={AdminRoute} /> */}
+          {/* EOD COMMIT 1/19/2022 */}
         </Routes>
       </>
     );
