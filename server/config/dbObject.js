@@ -63,6 +63,9 @@ function buildRelationshipsR() {
 async function findReferrals(referralId) {
   return await models.User.findByPk(referralId, { include: ['referrals']})
 }
+async function getUserData(id) {
+  return await models.User.findOne({ where: { id: id }})
+}
 
 async function findReferralsByUserIdJSON() {
 
@@ -123,4 +126,4 @@ await db.drop();
 console.log("All tables dropped!");
 }
 
-module.exports.dbObject = { findReferrals, createUser, createReferral, sync, forceSync, dropTables, addUser2, buildRelationships, buildRelationshipsR, authenticate }
+module.exports.dbObject = { findReferrals, getUserData, createUser, createReferral, sync, forceSync, dropTables, addUser2, buildRelationships, buildRelationshipsR, authenticate }

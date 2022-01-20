@@ -27,6 +27,20 @@ router.get('/logout', (req, res) => {
   res.json('logout successful');
 });
 
+// router.get('/refresh', (req, res) => {
+//     if (!req.user) {
+//       res.json({});
+//     } else {
+//       res.json({
+//         email: req.user.email,
+//         id: req.user.id,
+//         tier: req.user.membership_tier,
+//         referred: req.user.referred,
+//         code: req.user.referral_code,
+//       });      
+//     }
+// });
+
 router.get('/authenticate', (req, res) => {
     if (!req.user) {
       res.json({});
@@ -35,6 +49,8 @@ router.get('/authenticate', (req, res) => {
         email: req.user.email,
         id: req.user.id,
         tier: req.user.membership_tier,
+        referred: req.user.referred,
+        code: req.user.referral_code,
       });
     }
 });

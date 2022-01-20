@@ -28,6 +28,10 @@ const AuthProvider = ({ children }) => {
         .then((res) => res.json())
         .then((result) => {
             if (result.email) {
+                const { id, email, tier, referred, code } = result;
+                const store = { id, email, tier, referred, code };
+                console.log(store);
+                localStorage.setItem('user-data', JSON.stringify(store));
                 setIsAuth(true);
             } else {
                 setIsAuth(false);

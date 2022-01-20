@@ -7,7 +7,7 @@ import AccessForm from "../components/AccessForm";
 
 export default function Access() {
   const { isAuth } = useContext(AuthContext);
-  console.log("App auth: ", isAuth);
+  // console.log("App auth: ", isAuth);
     return (
       <>
         <main>

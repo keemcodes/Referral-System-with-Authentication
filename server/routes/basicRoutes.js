@@ -20,11 +20,13 @@ const isAuthenticated = require('../config/isAuthenticated');
     //     res.status(200).json(result)
     //   }).catch(error => console.log(error))
     // })
-    // router.get('/test', (req, res) => { 
-    //   dbObject.findContacts().then(result => {
-    //     res.status(200).json(result)
-    //   }).catch(error => console.log(error))
-    // })
+    router.get('/getUserData', (req, res) => { 
+      dbObject.getUserData(req.user.id).then(result => {
+        const { id, email, referred, referral_code, membership_tier } = result
+        const data = { id, email, referred, referral_code, membership_tier }
+        res.status(200).json(data)
+      }).catch(error => console.log(error))
+    })
 
   //   router.post('/formPost',
   //     body('name').not().isEmpty().trim().escape(),

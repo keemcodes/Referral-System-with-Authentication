@@ -24,7 +24,6 @@ export default function AccessForm() {
           const { id, email, membership_tier, referred, referral_code } = result;
           const store = { id, email, membership_tier, referred, referral_code };
           console.log(store);
-          localStorage.setItem('user-data', JSON.stringify(store));
           setResponse(store);
           setIsAuth(true);
       },
