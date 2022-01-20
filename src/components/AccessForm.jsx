@@ -21,9 +21,12 @@ export default function AccessForm() {
       })
       .then((res) => res.json())
       .then((result) => {
-          setResponse(result)
+          const { id, email, membership_tier, referred, referral_code } = result;
+          const store = { id, email, membership_tier, referred, referral_code };
+          setResponse(store);
           setIsAuth(true);
-          console.log(result)
+          localStorage.setItem('user-data', JSON.stringify(store));
+          console.log(store);
       },
       (error) => {
           setResponse("Login failed")

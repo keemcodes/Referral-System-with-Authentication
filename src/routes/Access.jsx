@@ -6,7 +6,7 @@ import Home from "../components/Home";
 import AccessForm from "../components/AccessForm";
 
 export default function Access() {
-  const { isAuth, logout } = useContext(AuthContext);
+  const { isAuth } = useContext(AuthContext);
   console.log("App auth: ", isAuth);
     return (
       <>
