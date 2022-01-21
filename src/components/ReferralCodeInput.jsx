@@ -9,7 +9,6 @@ export default function ReferralCodeInput(props) {
     const [data, setData] = useState({
         code: "",
     });
-    // console.log(data)
     const [response, setResponse] = useState('');
     useEffect(() => {
         setData({ code: props.userData?.referral_code});

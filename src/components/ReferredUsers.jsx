@@ -37,14 +37,16 @@ export default function ReferredUsers() {
             <thead>
                 <tr>
                     <th>#</th>
+                    <th>Collected</th>
                     <th>Referred User</th>
                     <th>Tier</th>
                 </tr>
             </thead>
             <tbody>
-                {referredUsers.map(referredUser => (
-                    <tr key={referredUser.id}>
-                        <td>{referredUser.id}</td>
+                {referredUsers.map((referredUser, index) => (
+                    <tr key={referredUser.id} className={''}>
+                        <td>{index + 1}</td>
+                        <td>{referredUser.collected===0?'Yes':'No'}</td>
                         <td>{referredUser.referred_email}</td>
                         <td>{printTier(referredUser.membership_tier)}</td>
                     </tr>

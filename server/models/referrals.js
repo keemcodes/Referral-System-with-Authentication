@@ -16,6 +16,11 @@ const Referral = db.define('referral', {
         isNumeric: true,
       },
     },
+    collected: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: 0
+    },      
   }, {
     timestamps: true,
 });
