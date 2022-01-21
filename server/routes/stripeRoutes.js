@@ -2,7 +2,7 @@ const router = require('express').Router();
 const stripe = require("stripe")(process.env.stripe_key);
 require("../config/config")
 
-const calculateOrderAmount = (items) => {
+const calculateOrderAmount = (item) => {
   // Replace this constant with a calculation of the order's amount
   // Calculate the order total on the server to prevent
   // people from directly manipulating the amount on the client
@@ -10,11 +10,11 @@ const calculateOrderAmount = (items) => {
 };
 
 router.post("/create-payment-intent", async (req, res) => {
-  const { items } = req.body;
-
+  const { item } = req.body;
+  console.log(item)
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(items),
+    amount: calculateOrderAmount(item),
     currency: "usd",
     automatic_payment_methods: {
       enabled: true,

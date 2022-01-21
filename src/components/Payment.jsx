@@ -9,15 +9,15 @@ import CheckoutForm from "./CheckoutForm";
 // This is your test publishable API key.
 const stripePromise = loadStripe("pk_test_51KFU7RKhpj6kH5cAFNNPDODkLe6haGvbzQ6FgD9Oym1g4RGaBUe3sTqhEP5gCzNJ1X1tdfNKpEcSEO60OjsjzQMu00jVcAVXdI");
 
-export default function Payment() {
+export default function Payment(props) {
   const [clientSecret, setClientSecret] = useState("");
-
+  console.log(props.tier)
   useEffect(() => {
     // Create PaymentIntent as soon as the page loads
     fetch("/api/pay/create-payment-intent", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: [{ id: "xl-tshirt" }] }),
+      body: JSON.stringify({ item: props.tier }),
     })
       .then((res) => res.json())
       .then((data) => setClientSecret(data.clientSecret));

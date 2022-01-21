@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import { useNavigate } from 'react-router-dom';
 
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
@@ -23,7 +23,7 @@ export default function PlanSelect() {
         
     }, [])  
     const [ userData, setUserData ] = React.useState();
-  
+    let navigate = useNavigate();
     return (
         <>
             <h1>hi {userData?.email} </h1>
@@ -35,7 +35,9 @@ export default function PlanSelect() {
                         Some quick example text to build on the card title and make up the bulk of
                         the card's content.
                         </Card.Text>
-                        <Button variant={userData?.membership_tier === 1 ? "'primary' disabled" : "primary"}>{userData?.membership_tier === 1 ? "Selected" : "Select Plan"}</Button>
+                        <Button variant={userData?.membership_tier === 1 ? "'primary' disabled" : "primary"} onClick={() => navigate("/checkout", { state: 1 })}>
+                            {userData?.membership_tier === 1 ? "Selected" : "Select Plan"}
+                        </Button>
                     </Card.Body>
                 </Card>
                 <Card style={{ width: '18rem' }}>
@@ -45,7 +47,9 @@ export default function PlanSelect() {
                         Some quick example text to build on the card title and make up the bulk of
                         the card's content.
                         </Card.Text>
-                        <Button variant={userData?.membership_tier === 2 ? "'primary' disabled" : "primary"}>{userData?.membership_tier === 2 ? "Selected" : "Select Plan"}</Button>
+                        <Button variant={userData?.membership_tier === 2 ? "'primary' disabled" : "primary"} onClick={() => navigate("/checkout", { state: 2 })} >
+                            {userData?.membership_tier === 2 ? "Selected" : "Select Plan"}
+                        </Button>
                     </Card.Body>
                 </Card>
                 <Card style={{ width: '18rem' }}>
@@ -55,7 +59,9 @@ export default function PlanSelect() {
                         Some quick example text to build on the card title and make up the bulk of
                         the card's content.
                         </Card.Text>
-                        <Button variant={userData?.membership_tier === 3 ? "'primary' disabled" : "primary"}>{userData?.membership_tier === 3 ? "Selected" : "Select Plan"}</Button>
+                        <Button variant={userData?.membership_tier === 3 ? "'primary' disabled" : "primary"} onClick={() => navigate("/checkout", { state: 3 })}>
+                            {userData?.membership_tier === 3 ? "Selected" : "Select Plan"}
+                        </Button>
                     </Card.Body>
                 </Card>
             </CardGroup>
