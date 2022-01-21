@@ -74,12 +74,12 @@ async function updateRefCode(id, code) {
 
 async function findReferralsByUserIdJSON(id) {
 
-  await findReferrals(id).then( (returned) => console.log(JSON.stringify(returned, null, 2)))
+  return await findReferrals(id).then( (returned) => JSON.stringify(returned.referrals, null, 2))
 }
 
 async function findReferralsByUserId(id) {
 
-  await findReferrals(id).then( (returned) => console.log(returned.get({plain:true})))
+  return await findReferrals(id).then( (returned) => returned.get({plain:true}))
 }
 
 
@@ -110,20 +110,24 @@ async function forceSync() {
 }
 async function createUserAndReferralTest(count) {
   for(let i = 0; i < count; i++) {
-    await createUser().then( (returned) => createReferral(returned.id))
+    let tier = Math.floor(Math.random() * 3) + 1
+    await createUserTest(tier).then( (returned) => createReferral(returned.id, returned.email, tier))
   }
 }
-async function createReferral(user) {
+async function createReferral(user, email, tier) {
   return await models.Referral.create({ 
-    referrer_id: user
+    referrer_id: user,
+    referred_email: email,
+    membership_tier: tier
   });
 }
 
-async function createUser() {
+async function createUserTest(tier) {
   return await models.User.create({ 
     email: randomName() + "@test.com",
     password: "password", 
     referred: 0,
+    membership_tier: tier
   });
 }
 
@@ -136,7 +140,7 @@ module.exports.dbObject =
 { 
   findReferrals, 
   getUserData, 
-  createUser, 
+  createUserTest, 
   createReferral, 
   sync, 
   forceSync, 

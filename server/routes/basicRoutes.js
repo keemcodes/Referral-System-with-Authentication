@@ -27,6 +27,11 @@ const isAuthenticated = require('../config/isAuthenticated');
         res.status(200).json(data)
       }).catch(error => console.log(error))
     })
+    router.get('/getReferredUsers', (req, res) => { 
+      dbObject.findReferralsByUserId(req.user.id).then(results => {
+        res.status(200).json(results.referrals)
+      }).catch(error => console.log(error))
+    })
 
     router.post('/updateRefCode',
       body('code').isAlphanumeric().not().isEmpty().trim().escape(),

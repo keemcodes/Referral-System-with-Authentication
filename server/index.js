@@ -35,7 +35,8 @@ dbObject.sync()
 // for(let i = 0; i < 10; i++) {
 //   dbObject.createUserAndReferralTest()
 // }
-// dbObject.findReferralsByUserId(2)
+// dbObject.findReferralsByUserId(2).then(results => console.log(results.referrals))
+// dbObject.findReferralsByUserIdJSON(2) 
 
 
 //  Routing...

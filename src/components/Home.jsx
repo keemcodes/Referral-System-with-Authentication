@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 
 import PlanSelect from './PlanSelect' 
 import ReferralCodeInput from './ReferralCodeInput' 
+import ReferredUsers from "./ReferredUsers";
 
 
 export default function Home() {
@@ -29,6 +30,7 @@ const [ userData, setUserData ] = React.useState();
       <h1>Home</h1>
       <ReferralCodeInput userData={userData}/>
       <PlanSelect userData={userData}/>
+      <ReferredUsers />
     </>
   );
 }

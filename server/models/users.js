@@ -22,6 +22,7 @@ const User = db.define('user', {
   referred: {
     type: DataTypes.BOOLEAN,
     allowNull: false,
+    defaultValue: 0
   },
   referral_code: {
     type: DataTypes.STRING,
