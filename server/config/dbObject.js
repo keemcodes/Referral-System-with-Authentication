@@ -63,21 +63,23 @@ function buildRelationshipsR() {
 async function findReferrals(referralId) {
   return await models.User.findByPk(referralId, { include: ['referrals']})
 }
+
 async function getUserData(id) {
   return await models.User.findOne({ where: { id: id }})
 }
+
 async function updateRefCode(id, code) {
   return await models.User.update({ referral_code: code },{ where: { id: id }})
 }
 
-async function findReferralsByUserIdJSON() {
+async function findReferralsByUserIdJSON(id) {
 
-  await findReferrals(2).then( (returned) => console.log(JSON.stringify(returned, null, 2)))
+  await findReferrals(id).then( (returned) => console.log(JSON.stringify(returned, null, 2)))
 }
 
-async function findReferralsByUserId() {
+async function findReferralsByUserId(id) {
 
-  await findReferrals(2).then( (returned) => console.log(returned.get({plain:true})))
+  await findReferrals(id).then( (returned) => console.log(returned.get({plain:true})))
 }
 
 
@@ -106,9 +108,10 @@ async function forceSync() {
   });
   console.log("All models were synchronized successfully.");
 }
-async function createUserAndReferralTest() {
-
-  await createUser().then( (returned) => createReferral(returned.id))
+async function createUserAndReferralTest(count) {
+  for(let i = 0; i < count; i++) {
+    await createUser().then( (returned) => createReferral(returned.id))
+  }
 }
 async function createReferral(user) {
   return await models.Referral.create({ 
@@ -129,4 +132,21 @@ await db.drop();
 console.log("All tables dropped!");
 }
 
-module.exports.dbObject = { findReferrals, getUserData, createUser, createReferral, sync, forceSync, dropTables, addUser2, updateRefCode, buildRelationships, buildRelationshipsR, authenticate }
+module.exports.dbObject = 
+{ 
+  findReferrals, 
+  getUserData, 
+  createUser, 
+  createReferral, 
+  sync, 
+  forceSync, 
+  dropTables, 
+  addUser2,
+  updateRefCode, 
+  buildRelationships, 
+  buildRelationshipsR, 
+  authenticate,
+  findReferralsByUserId,
+  findReferralsByUserIdJSON,
+  createUserAndReferralTest
+}

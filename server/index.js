@@ -26,15 +26,16 @@ app.use(passport.session());
 const { dbObject } = require('./config/dbObject')
 // dbObject.dropTables();
 // dbObject.addInitialProjects();
-dbObject.buildRelationshipsR()
+dbObject.buildRelationships()
 // dbObject.forceSync()
-// dbObject.updateRefCode(1, "keemcodes")
 dbObject.sync()
+// dbObject.createUserAndReferralTest(10)
+// dbObject.updateRefCode(1, "keemcodes")
 
 // for(let i = 0; i < 10; i++) {
-//   dbObject.addUser2()
+//   dbObject.createUserAndReferralTest()
 // }
-
+// dbObject.findReferralsByUserId(2)
 
 
 //  Routing...
