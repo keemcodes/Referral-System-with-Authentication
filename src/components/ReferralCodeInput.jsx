@@ -9,8 +9,11 @@ export default function ReferralCodeInput(props) {
     const [data, setData] = useState({
         code: "",
     });
+    // console.log(data)
     const [response, setResponse] = useState('');
-
+    useEffect(() => {
+        setData({ code: props.userData?.referral_code});
+     }, [props.userData?.referral_code])
     function submit(e) {
         e.preventDefault();
         fetch("/api/updateRefCode", {
@@ -49,7 +52,7 @@ export default function ReferralCodeInput(props) {
                     </Button>
                 </InputGroup>      
                 <Form.Text className="text-muted">
-                    {response? 'successful' : ''}
+                    {response? response : ''}
                 </Form.Text>
             </Form>
         </>
