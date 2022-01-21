@@ -6,15 +6,27 @@ const calculateOrderAmount = (item) => {
   // Replace this constant with a calculation of the order's amount
   // Calculate the order total on the server to prevent
   // people from directly manipulating the amount on the client
-  return 1000;
+  switch(item) {
+    default:
+      return 5000
+    case 1:
+      return 5000
+    case 2:
+      return 10000
+    case 3:
+      return 15000
+
+  }
 };
 
 router.post("/create-payment-intent", async (req, res) => {
   const { item } = req.body;
   console.log(item)
+  const total = calculateOrderAmount(item);
+  console.log(total)
   // Create a PaymentIntent with the order amount and currency
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: calculateOrderAmount(item),
+    amount: total,
     currency: "usd",
     automatic_payment_methods: {
       enabled: true,
