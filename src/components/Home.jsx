@@ -2,7 +2,8 @@ import React, { useEffect, useState } from "react";
 
 import Button from 'react-bootstrap/Button';
 
-import PlanSelect from './PlanSelect'
+import PlanSelect from './PlanSelect' 
+import ReferralCodeInput from './ReferralCodeInput' 
 
 
 export default function Home() {
@@ -26,6 +27,7 @@ const [ userData, setUserData ] = React.useState();
   return (
     <>
       <h1>Home</h1>
+      <ReferralCodeInput userData={userData}/>
       <PlanSelect userData={userData}/>
     </>
   );

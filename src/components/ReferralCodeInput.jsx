@@ -1,54 +1,57 @@
-import React, { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
 
+import InputGroup from 'react-bootstrap/InputGroup';
+import Form from 'react-bootstrap/Form';
+import FormControl from 'react-bootstrap/FormControl';
 import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import CardGroup from 'react-bootstrap/CardGroup';
 
-export default function PlanSelect(props) {
+export default function ReferralCodeInput(props) {
+    const [data, setData] = useState({
+        code: "",
+    });
+    const [response, setResponse] = useState('');
 
-    let navigate = useNavigate();
+    function submit(e) {
+        e.preventDefault();
+        fetch("/api/updateRefCode", {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(data)
+        })
+        .then((res) => res.json())
+        .then((result) => {
+            setResponse(result)
+            console.log(result)
+        },
+        (error) => {
+            console.log(error)
+        })
+    }
+    function handle(e) {
+        const newdata = { ...data }
+        newdata[e.target.name] = e.target.value
+        setData(newdata)
+        console.log(newdata)
+    }
     return (
         <>
-            <h1>hi {props.userData?.email} </h1>
-            <CardGroup>            
-                <Card style={{ width: '18rem' }}>
-                    <Card.Body>
-                        <Card.Title>Bronze $50</Card.Title>
-                        <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk of
-                        the card's content.
-                        </Card.Text>
-                        <Button variant={props.userData?.membership_tier === 1 ? "'primary' disabled" : "primary"} onClick={() => navigate("/checkout", { state: 1 })}>
-                            {props.userData?.membership_tier === 1 ? "Selected" : "Select Plan"}
-                        </Button>
-                    </Card.Body>
-                </Card>
-                <Card style={{ width: '18rem' }}>
-                    <Card.Body>
-                        <Card.Title>Silver $100</Card.Title>
-                        <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk of
-                        the card's content.
-                        </Card.Text>
-                        <Button variant={props.userData?.membership_tier === 2 ? "'primary' disabled" : "primary"} onClick={() => navigate("/checkout", { state: 2 })} >
-                            {props.userData?.membership_tier === 2 ? "Selected" : "Select Plan"}
-                        </Button>
-                    </Card.Body>
-                </Card>
-                <Card style={{ width: '18rem' }}>
-                    <Card.Body>
-                        <Card.Title>Gold $150</Card.Title>
-                        <Card.Text>
-                        Some quick example text to build on the card title and make up the bulk of
-                        the card's content.
-                        </Card.Text>
-                        <Button variant={props.userData?.membership_tier === 3 ? "'primary' disabled" : "primary"} onClick={() => navigate("/checkout", { state: 3 })}>
-                            {props.userData?.membership_tier === 3 ? "Selected" : "Select Plan"}
-                        </Button>
-                    </Card.Body>
-                </Card>
-            </CardGroup>
+            <Form >                
+                <InputGroup className="mb-3">
+                    <FormControl
+                    defaultValue={props.userData?.referral_code}
+                    aria-label="Referral code"
+                    aria-describedby="basic-addon2"
+                    name='code'
+                    onChange={(e) => handle(e)}
+                    />
+                    <Button variant="outline-secondary" id="button-addon2" onClick={(e) => submit(e)}>
+                    Save
+                    </Button>
+                </InputGroup>      
+                <Form.Text className="text-muted">
+                    {response? 'successful' : ''}
+                </Form.Text>
+            </Form>
         </>
     );
 }

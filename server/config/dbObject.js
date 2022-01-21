@@ -66,6 +66,9 @@ async function findReferrals(referralId) {
 async function getUserData(id) {
   return await models.User.findOne({ where: { id: id }})
 }
+async function updateRefCode(id, code) {
+  return await models.User.update({ referral_code: code },{ where: { id: id }})
+}
 
 async function findReferralsByUserIdJSON() {
 
@@ -126,4 +129,4 @@ await db.drop();
 console.log("All tables dropped!");
 }
 
-module.exports.dbObject = { findReferrals, getUserData, createUser, createReferral, sync, forceSync, dropTables, addUser2, buildRelationships, buildRelationshipsR, authenticate }
+module.exports.dbObject = { findReferrals, getUserData, createUser, createReferral, sync, forceSync, dropTables, addUser2, updateRefCode, buildRelationships, buildRelationshipsR, authenticate }

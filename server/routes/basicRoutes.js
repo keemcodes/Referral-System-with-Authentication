@@ -28,19 +28,15 @@ const isAuthenticated = require('../config/isAuthenticated');
       }).catch(error => console.log(error))
     })
 
-  //   router.post('/formPost',
-  //     body('name').not().isEmpty().trim().escape(),
-  //     body('email').isEmail().normalizeEmail(),
-  //     body('message').not().isEmpty().trim().escape(),
-  //    (req, res) => {
-  //     const name = req.body.name;
-  //     const email = req.body.email;
-  //     const message = req.body.message;
-  //     const errors = validationResult(req);
-  //     if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });   
-  //     console.log(name, email, message)
-  //     dbObject.createContact(name, email, message).catch(error => console.log(error));
-  //     res.send({ errors: { success: `Thank you ${name}, I've received your message`, } });
-  //   });
+    router.post('/updateRefCode',
+      body('code').isAlphanumeric().not().isEmpty().trim().escape(),
+     (req, res) => {
+      const code = req.body.code;
+      const errors = validationResult(req);
+      if (!errors.isEmpty()) return res.status(400).json('RIP :(');   
+      console.log(code)
+      dbObject.updateRefCode(req.user.id, code).catch(error => console.log(error));
+      res.send('Got it :)');
+    });
   
 module.exports = router;

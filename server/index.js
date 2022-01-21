@@ -28,6 +28,7 @@ const { dbObject } = require('./config/dbObject')
 // dbObject.addInitialProjects();
 dbObject.buildRelationshipsR()
 // dbObject.forceSync()
+// dbObject.updateRefCode(1, "keemcodes")
 dbObject.sync()
 
 // for(let i = 0; i < 10; i++) {

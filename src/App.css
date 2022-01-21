@@ -14,7 +14,7 @@ body {
   width: 100vw; */
 }
 
-form {
+form#payment-form {
   width: 30vw;
   min-width: 500px;
   align-self: center;
@@ -38,7 +38,7 @@ form {
 }
 
 /* Buttons and links */
-button {
+#payment-form button {
   background: #5469d4;
   font-family: Arial, sans-serif;
   color: #ffffff;
@@ -54,11 +54,11 @@ button {
   width: 100%;
 }
 
-button:hover {
+#payment-form button:hover {
   filter: contrast(115%);
 }
 
-button:disabled {
+#payment-form button:disabled {
   opacity: 0.5;
   cursor: default;
 }
