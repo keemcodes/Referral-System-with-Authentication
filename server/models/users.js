@@ -32,6 +32,11 @@ const User = db.define('user', {
       isAlphanumeric: true,
     },
   },
+  stripe_account: {
+    type: DataTypes.STRING,
+    allowNull: true,
+    unique: true,
+  },
   membership_tier: {
     type: DataTypes.INTEGER,
     allowNull: true,

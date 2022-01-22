@@ -71,6 +71,9 @@ async function getUserData(id) {
 async function updateRefCode(id, code) {
   return await models.User.update({ referral_code: code },{ where: { id: id }})
 }
+async function updateSwipeAccount(id, account) {
+  return await models.User.update({ stripe_account: account },{ where: { id: id }})
+}
 
 async function findReferralsByUserIdJSON(id) {
 
@@ -147,6 +150,7 @@ module.exports.dbObject =
   dropTables, 
   addUser2,
   updateRefCode, 
+  updateSwipeAccount, 
   buildRelationships, 
   buildRelationshipsR, 
   authenticate,

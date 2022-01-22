@@ -28,7 +28,7 @@ const { dbObject } = require('./config/dbObject')
 // dbObject.addInitialProjects();
 dbObject.buildRelationships()
 // dbObject.forceSync()
-dbObject.sync()
+// dbObject.sync()
 // dbObject.createUserAndReferralTest(10)
 // dbObject.updateRefCode(1, "keemcodes")
 
@@ -38,7 +38,9 @@ dbObject.sync()
 // dbObject.findReferralsByUserId(2).then(results => console.log(results.referrals))
 // dbObject.findReferralsByUserIdJSON(2) 
 
-
+// dbObject.createUserTest(1)
+// .then(returned => console.log(returned))
+// .then()
 //  Routing...
 app.use('/api', routes)
 
