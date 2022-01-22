@@ -113,7 +113,7 @@ async function calculateTotalPayout(id) {
   let totalPayout;
   await findReferralsByUserId(id).then(results => {
     totalPayout = results.referrals.reduce((total, item) => {
-      return total + payoutByTier(item.membership_tier)
+      return item.collected == 0 ? total + payoutByTier(item.membership_tier) : total
     },0)
     // console.log(totalPayout)
   })
