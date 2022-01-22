@@ -39,6 +39,20 @@ async function addUser2() {
 
 }
 
+function payoutByTier(item) {
+  switch(item) {
+    default:
+      return 500
+    case 1:
+      return 500
+    case 2:
+      return 1000
+    case 3:
+      return 1500
+
+  }
+}
+
 function buildRelationships() {
   models.User.hasMany(models.Referral, { 
     foreignKey: "referrer_id",
@@ -85,7 +99,26 @@ async function findReferralsByUserId(id) {
   return await findReferrals(id).then( (returned) => returned.get({plain:true}))
 }
 
+async function calculateTotalPayoutMap(id){
+  let total = 0;
+  await findReferralsByUserId(id).then(results => {
+    results.referrals.map((map) => {
+      total+=payoutByTier(map.membership_tier)
+    })
+  })
+  return total
+}
 
+async function calculateTotalPayout(id) {
+  let totalPayout;
+  await findReferralsByUserId(id).then(results => {
+    totalPayout = results.referrals.reduce((total, item) => {
+      return total + payoutByTier(item.membership_tier)
+    },0)
+    // console.log(totalPayout)
+  })
+  return totalPayout
+}
 
 async function authenticate() {
   try {
@@ -142,6 +175,8 @@ console.log("All tables dropped!");
 module.exports.dbObject = 
 { 
   findReferrals, 
+  calculateTotalPayout,
+  calculateTotalPayoutMap,
   getUserData, 
   createUserTest, 
   createReferral, 

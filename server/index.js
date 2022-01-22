@@ -31,7 +31,8 @@ dbObject.buildRelationships()
 // dbObject.sync()
 // dbObject.createUserAndReferralTest(10)
 // dbObject.updateRefCode(1, "keemcodes")
-
+dbObject.calculateTotalPayout(2).then((returned) => console.log(returned))
+dbObject.calculateTotalPayoutMap(2).then((returned) => console.log(returned))
 // for(let i = 0; i < 10; i++) {
 //   dbObject.createUserAndReferralTest()
 // }
