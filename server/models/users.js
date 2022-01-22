@@ -39,7 +39,8 @@ const User = db.define('user', {
   },
   membership_tier: {
     type: DataTypes.INTEGER,
-    allowNull: true,
+    allowNull: false,
+    defaultValue: 0,
     validate: {
       isNumeric: true,
     },

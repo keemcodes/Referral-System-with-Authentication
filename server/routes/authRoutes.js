@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const models = require('../models');
 const passport = require('../config/passport');
+const { dbObject } = require('../dbObject') 
+const { stripeObject } = require('../stripeObject') 
 const isAuthenticated = require('../config/isAuthenticated');
 
 
@@ -10,16 +12,38 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
 });
 
 router.post('/register', (req, res) => {
-  models.User.create({
-    email: req.body.email,
-    password: req.body.password,
-  })
-    .then((dbResponse) => {
-      res.json(dbResponse);
+  const { email, password, code } = req.body
+  if (code) {
+    dbObject.getUserByReferralCode(code)
+    .then(userAcc => {
+      if (userAcc?.id === undefined) throw 'Referral code invalid'
+      dbObject.createReferral(userAcc.id, email, 0)
+      .then(() => dbObject.createUser(email, password, 0))
+      .then(user => {
+        dbObject.updatedReferredStatus(user.id, 1)
+        stripeObject.createStripeAccount(email)
+        .then(account => dbObject.updateSwipeAccount(user.id, account.id))
+        .then(() => res.status(200).send('Account Created'))
+      })
+      .catch(() => res.status(400).send('Error creating account, probably already exists'))
     })
-    .catch((err) => {
-      res.json(err);
-    });
+    .catch((err) => res.status(400).send(err))
+  } else {
+    dbObject.createUser(email, password, 0)
+    .then(user => {
+      if (code) dbObject.getUserByReferralCode(code)
+      .then(userAcc => {
+        if (userAcc?.id) dbObject.createReferral(userAcc.id, email, 0)
+        .then(dbObject.updatedReferredStatus(user.id, 1))
+        .catch(() => res.status(400).send('Error'))
+      })
+      stripeObject.createStripeAccount(email)
+      .then(account => dbObject.updateSwipeAccount(user.id, account.id))
+      .then(() => res.status(200).send('Account Created'))
+      .catch(() => res.status(400).send('Error generating stripe account'))
+    })
+    .catch(() => res.status(400).send('Error creating account, probably already exists'))
+  }
 });
 
 router.get('/logout', (req, res) => {

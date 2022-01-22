@@ -81,9 +81,15 @@ async function findReferrals(referralId) {
 async function getUserData(id) {
   return await models.User.findOne({ where: { id: id }})
 }
+async function getUserByReferralCode(code) {
+  return await models.User.findOne({ where: { referral_code: code }})
+}
 
 async function updateRefCode(id, code) {
   return await models.User.update({ referral_code: code },{ where: { id: id }})
+}
+async function updatedReferredStatus(id, referred) {
+  return await models.User.update({ referred: referred },{ where: { id: id }})
 }
 async function updateSwipeAccount(id, account) {
   return await models.User.update({ stripe_account: account },{ where: { id: id }})
@@ -180,6 +186,14 @@ async function createReferral(user, email, tier) {
   });
 }
 
+async function createUser(email, password, referred) {
+  return await models.User.create({ 
+    email: email,
+    password: password, 
+    referred: referred,
+    membership_tier: 0
+  })
+}
 async function createUserTest(tier) {
   return await models.User.create({ 
     email: randomName() + "@test.com",
@@ -197,10 +211,12 @@ console.log("All tables dropped!");
 module.exports.dbObject = 
 { 
   findReferrals, 
+  getUserByReferralCode,
   calculateTotalPayout,
   calculateTotalPayoutMap,
   moneyFormatter,
   getUserData, 
+  createUser, 
   createUserTest, 
   createReferral, 
   sync, 
@@ -209,6 +225,7 @@ module.exports.dbObject =
   addUser2,
   updateRefCode, 
   updateSwipeAccount, 
+  updatedReferredStatus,
   updateCollectedReferrals,
   buildRelationships, 
   buildRelationshipsR, 

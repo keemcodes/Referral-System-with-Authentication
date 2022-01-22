@@ -53,6 +53,12 @@ dbObject.buildRelationships()
 //     stripeObject.transferPayout(data.stripe_account, result)
 //   })
 // })
+// dbObject.getUserByReferralCode("codingg").then(user => console.log(user?.id))
+// dbObject.updatedReferredStatus(18, 1)
+// dbObject.createUser("ref@ref.com", "password", 0)
+// .then(user => {
+//   if (referred) dbObject.createReferral(user.id, "ref@ref.com", 0)
+// })
 app.use('/api', routes)
 
 app.listen(port, () => {

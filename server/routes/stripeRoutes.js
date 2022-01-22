@@ -23,7 +23,8 @@ router.post("/confirm-payment", isAuthenticated, async (req, res) => {
   .then((paymentInfo) => {
     console.log(paymentInfo.status) // will replace with function that updates the user in db
     res.send(paymentInfo.status)
-  }).catch((error) => {
+  })
+  .catch((error) => {
     console.log(error)
     res.send(error)
   });
@@ -40,7 +41,8 @@ router.post("/create-stripe-account", isAuthenticated, async (req, res) => {
 router.get('/get-payout', isAuthenticated, (req, res) => { 
   dbObject.calculateTotalPayout(req.user.id).then(result => {
     res.status(200).send(dbObject.moneyFormatter(result))
-  }).catch(error => {
+  })
+  .catch(error => {
     res.status(400).send('Error')
     console.log(error)
   })
