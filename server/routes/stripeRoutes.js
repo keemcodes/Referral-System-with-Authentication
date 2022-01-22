@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { dbObject } = require('../dbObject') 
 const { stripeObject } = require('../stripeObject') 
 const isAuthenticated = require('../config/isAuthenticated');
+const db = require('../config/db');
 
 
 
@@ -46,11 +47,11 @@ router.get('/get-payout', isAuthenticated, (req, res) => {
 })
 
 router.post("/payout", isAuthenticated, async (req, res) => {
-  // const { intent } = req.body;
   dbObject.getUserData(req.user.id).then( data => {
     dbObject.calculateTotalPayout(req.user.id).then(result => {
       if (result <= 0) throw "Not enough money"
       stripeObject.transferPayout(data.stripe_account, result)
+      .then( () => dbObject.updateCollectedReferrals(req.user.id))
       .then( () => res.status(200).send('Success'))
       .catch(error => {
         res.status(400).json(error)
