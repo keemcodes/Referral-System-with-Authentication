@@ -24,6 +24,7 @@ app.use(passport.session());
 
 // Database testing
 const { dbObject } = require('./dbObject')
+const { stripeObject } = require('./stripeObject')
 // dbObject.dropTables();
 // dbObject.addInitialProjects();
 dbObject.buildRelationships()
@@ -31,8 +32,10 @@ dbObject.buildRelationships()
 // dbObject.sync()
 // dbObject.createUserAndReferralTest(10)
 // dbObject.updateRefCode(1, "keemcodes")
-dbObject.calculateTotalPayout(2).then((returned) => console.log(returned))
-dbObject.calculateTotalPayoutMap(2).then((returned) => console.log(returned))
+// dbObject.updateCollectedReferrals(2)
+// dbObject.getUserData(2).then(data => console.log(data))
+// dbObject.calculateTotalPayout(2).then((returned) => console.log(dbObject.moneyFormatter(returned)))
+// dbObject.calculateTotalPayoutMap(2).then((returned) => console.log(returned))
 // for(let i = 0; i < 10; i++) {
 //   dbObject.createUserAndReferralTest()
 // }
@@ -43,6 +46,13 @@ dbObject.calculateTotalPayoutMap(2).then((returned) => console.log(returned))
 // .then(returned => console.log(returned))
 // .then()
 //  Routing...
+
+// dbObject.getUserData(2).then( data => {
+//   dbObject.calculateTotalPayout(2).then(result => {
+//     if (result <= 0) return console.log("Nope")
+//     stripeObject.transferPayout(data.stripe_account, result)
+//   })
+// })
 app.use('/api', routes)
 
 app.listen(port, () => {

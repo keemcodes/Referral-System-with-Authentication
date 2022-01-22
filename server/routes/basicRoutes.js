@@ -17,6 +17,7 @@ const isAuthenticated = require('../config/isAuthenticated');
       }).catch(error => console.log(error))
     })
 
+
     router.post('/updateRefCode',
       body('code').isAlphanumeric().not().isEmpty().trim().escape(),
      (req, res) => {

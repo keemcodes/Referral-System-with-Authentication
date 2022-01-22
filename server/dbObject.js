@@ -89,6 +89,10 @@ async function updateSwipeAccount(id, account) {
   return await models.User.update({ stripe_account: account },{ where: { id: id }})
 }
 
+async function updateCollectedReferrals(id) {
+  return await models.Referral.update({ collected: 1 },{ where: { referrer_id: id }})
+}
+
 async function findReferralsByUserIdJSON(id) {
 
   return await findReferrals(id).then( (returned) => JSON.stringify(returned.referrals, null, 2))
@@ -109,15 +113,33 @@ async function calculateTotalPayoutMap(id){
   return total
 }
 
+async function collectAllReferrals(id){
+  let total = 0;
+  await findReferralsByUserId(id).then(results => {
+    results.referrals.map((map) => {
+      total+=payoutByTier(map.membership_tier)
+    })
+  })
+  return total
+}
+
 async function calculateTotalPayout(id) {
   let totalPayout;
   await findReferralsByUserId(id).then(results => {
     totalPayout = results.referrals.reduce((total, item) => {
       return item.collected == 0 ? total + payoutByTier(item.membership_tier) : total
     },0)
-    // console.log(totalPayout)
   })
   return totalPayout
+}
+
+function moneyFormatter(money) {
+  var formatter = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+
+  });
+  return formatter.format(money);
 }
 
 async function authenticate() {
@@ -177,6 +199,7 @@ module.exports.dbObject =
   findReferrals, 
   calculateTotalPayout,
   calculateTotalPayoutMap,
+  moneyFormatter,
   getUserData, 
   createUserTest, 
   createReferral, 
@@ -186,6 +209,7 @@ module.exports.dbObject =
   addUser2,
   updateRefCode, 
   updateSwipeAccount, 
+  updateCollectedReferrals,
   buildRelationships, 
   buildRelationshipsR, 
   authenticate,

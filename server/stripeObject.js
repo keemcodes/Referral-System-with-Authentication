@@ -27,6 +27,13 @@ module.exports.stripeObject = {
   confirmPayment: async function confirmPayment(paymentId) {
     return await stripe.paymentIntents.retrieve(paymentId)
   },
+  transferPayout: async function transferPayout(account, amount) {
+    return await stripe.transfers.create({
+      amount: amount,
+      currency: "usd",
+      destination: account,
+    });
+  },
   createStripeAccount: async function createStripeAccount(email) {
     return await stripe.accounts.create({
       type: 'custom',
