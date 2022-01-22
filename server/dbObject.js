@@ -1,5 +1,5 @@
-const db = require('./db')
-const models = require('../models')
+const db = require('./config/db')
+const models = require('./models')
 
 
 // Legacy functions from my initial build :)

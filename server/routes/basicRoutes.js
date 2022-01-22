@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const {dbObject} = require('../config/dbObject');
+const {dbObject} = require('../dbObject');
 const { body, validationResult } = require('express-validator');
 const isAuthenticated = require('../config/isAuthenticated');
 

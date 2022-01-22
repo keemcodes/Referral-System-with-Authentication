@@ -23,7 +23,7 @@ app.use(passport.session());
 
 
 // Database testing
-const { dbObject } = require('./config/dbObject')
+const { dbObject } = require('./dbObject')
 // dbObject.dropTables();
 // dbObject.addInitialProjects();
 dbObject.buildRelationships()
