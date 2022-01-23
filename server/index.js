@@ -3,7 +3,9 @@ const express = require('express');
 const session = require('express-session');
 const passport = require('passport');
 const app = express()
-const port = process.env.PORT || 4242
+require('dotenv').config({path: './.env'});
+
+const port = 4242
 
 // Routes
 const routes = require('./routes')

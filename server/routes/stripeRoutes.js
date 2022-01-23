@@ -2,7 +2,6 @@ const router = require('express').Router();
 const { dbObject } = require('../dbObject') 
 const { stripeObject } = require('../stripeObject') 
 const isAuthenticated = require('../config/isAuthenticated');
-const db = require('../config/db');
 
 
 

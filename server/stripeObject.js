@@ -1,4 +1,3 @@
-require("./config/config")
 const stripe = require("stripe")(process.env.stripe_key);
 
 module.exports.stripeObject = {
