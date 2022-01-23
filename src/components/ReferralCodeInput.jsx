@@ -38,6 +38,7 @@ export default function ReferralCodeInput(props) {
     return (
         <>
             <Form >                
+                <Form.Label htmlFor="basic-url">Your referral code</Form.Label>
                 <InputGroup className="mb-3">
                     <FormControl
                     defaultValue={props.userData?.referral_code}
@@ -46,13 +47,13 @@ export default function ReferralCodeInput(props) {
                     name='code'
                     onChange={(e) => handle(e)}
                     />
+                    <InputGroup.Text className="text-muted">
+                        {response? response : ''}
+                    </InputGroup.Text>
                     <Button variant="outline-secondary" id="button-addon2" onClick={(e) => submit(e)}>
-                    Save
+                        Save
                     </Button>
                 </InputGroup>      
-                <Form.Text className="text-muted">
-                    {response? response : ''}
-                </Form.Text>
             </Form>
         </>
     );

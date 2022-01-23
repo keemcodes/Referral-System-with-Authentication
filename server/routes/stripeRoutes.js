@@ -43,7 +43,7 @@ router.post("/create-stripe-account", isAuthenticated, async (req, res) => {
 
 router.get('/get-payout', isAuthenticated, (req, res) => { 
   dbObject.calculateTotalPayout(req.user.id).then(result => {
-    res.status(200).send(dbObject.moneyFormatter(result))
+    res.status(200).json(dbObject.moneyFormatter(result))
   })
   .catch(error => {
     res.status(400).send('Error')
@@ -57,7 +57,7 @@ router.post("/payout", isAuthenticated, async (req, res) => {
       if (result <= 0) throw "Not enough money"
       stripeObject.transferPayout(data.stripe_account, result)
       .then( () => dbObject.updateCollectedReferrals(req.user.id))
-      .then( () => res.status(200).send('Success'))
+      .then( () => res.status(200).json('Success'))
       .catch(error => {
         res.status(400).json(error)
         console.log(error)

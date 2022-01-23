@@ -5,6 +5,8 @@ import {
   useElements
 } from "@stripe/react-stripe-js";
 
+import Alert from "react-bootstrap/Alert";
+
 export default function CheckoutForm() {
   const stripe = useStripe();
   const elements = useElements();
@@ -24,7 +26,8 @@ export default function CheckoutForm() {
     stripe.retrievePaymentIntent(clientSecret).then(({ paymentIntent }) => {
       switch (paymentIntent.status) {
         case "succeeded":
-          verifyPayment(paymentIntent.id);
+          // if (paymentIntent.metadata.tier != -1) verifyPayment(paymentIntent.id);
+          // verifyPayment(paymentIntent.id);
           setMessage("Payment succeeded!");
           break;
         case "processing":
@@ -39,21 +42,6 @@ export default function CheckoutForm() {
       }
     });
   }, [stripe]);
-
-  const verifyPayment = async (id) => {
-    await fetch("/api/pay/confirm-payment", {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({ paymentId: id })
-    })
-    .then((res) => res.json())
-    .then((result) => {
-        console.log(result)
-    })
-    .catch((error) => {
-        console.log(error)
-    })
-}
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,7 +58,7 @@ export default function CheckoutForm() {
       elements,
       confirmParams: {
         // Make sure to change this to your payment completion page
-        return_url: "http://localhost:3000/checkout",
+        return_url: "http://localhost:3000/afterpayment",
       },
     });
 
@@ -89,15 +77,20 @@ export default function CheckoutForm() {
   };
 
   return (
-    <form id="payment-form" onSubmit={handleSubmit}>
-      <PaymentElement id="payment-element" />
-      <button disabled={isLoading || !stripe || !elements} id="submit">
-        <span id="button-text">
-          {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-        </span>
-      </button>
-      {/* Show any error or success messages */}
-      {message && <div id="payment-message">{message}</div>}
-    </form>
+    <>
+      <form id="payment-form" onSubmit={handleSubmit}>
+        <Alert variant='dark'>
+          Use magic card "4000 0000 0000 0077" with any CCV and expiration date!
+        </Alert>
+        <PaymentElement id="payment-element" />
+        <button disabled={isLoading || !stripe || !elements} id="submit">
+          <span id="button-text">
+            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+          </span>
+        </button>
+        {/* Show any error or success messages */}
+        {message && <div id="payment-message">{message}</div>}
+      </form>
+    </>
   );
 }

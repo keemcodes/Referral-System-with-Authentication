@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 
-import Button from 'react-bootstrap/Button';
-
 import PlanSelect from './PlanSelect' 
 import ReferralCodeInput from './ReferralCodeInput' 
 import ReferredUsers from "./ReferredUsers";
+import Payout from "./Payout";
+
 
 
 export default function Home() {
@@ -24,6 +24,7 @@ export default function Home() {
         // .catch((r) =>
     
 }, [])  
+
 const [ userData, setUserData ] = React.useState();
   return (
     <>
@@ -31,6 +32,9 @@ const [ userData, setUserData ] = React.useState();
       <ReferralCodeInput userData={userData}/>
       <PlanSelect userData={userData}/>
       <ReferredUsers />
+      <Payout />
+
+      
     </>
   );
 }

@@ -11,7 +11,9 @@ function randomName() {
 function payoutByTier(item) {
   switch(item) {
     default:
-      return 500
+      return 0
+    case 0:
+      return 0
     case 1:
       return 500
     case 2:
@@ -95,9 +97,8 @@ function moneyFormatter(money) {
   var formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
-
   });
-  return formatter.format(money);
+  return formatter.format(money / 100);
 }
 
 async function authenticate() {

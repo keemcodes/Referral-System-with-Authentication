@@ -6,6 +6,8 @@ module.exports.stripeObject = {
     switch(item) {
       default:
         return 5000
+      case -1:
+        return 100000
       case 1:
         return 5000
       case 2:
@@ -25,6 +27,7 @@ module.exports.stripeObject = {
       metadata: {
         tier: tier
       },
+      description: tier,
     });
   },
   confirmPayment: async function confirmPayment(paymentId) {

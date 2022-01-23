@@ -8,6 +8,7 @@ import Main from "./routes/Main";
 import Checkout from "./routes/Checkout";
 import Access from "./routes/Access";
 import PlanSelection from "./routes/PlanSelection";
+import AfterPayment from "./routes/AfterPayment";
 
 
 
@@ -21,6 +22,7 @@ export default function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/access" element={<Access />} />
           <Route path="/plan" element={<PlanSelection />} />
+          <Route path="/afterpayment" element={<AfterPayment />} />
           {/* <PrivateRoute path="/admin" element={<AdminRoute />} component={AdminRoute} /> */}
           {/* EOD COMMIT 1/19/2022 */}
         </Routes>
