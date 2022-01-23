@@ -30,10 +30,10 @@ export default function AccessForm() {
           console.log(store);
           setResponse(store);
           setIsAuth(true);
-          setLoading(false);
       },
       (error) => {
           setResponse("Login failed")
+          setLoading(false);
           console.log(error)
 
       })
@@ -48,15 +48,21 @@ export default function AccessForm() {
       })
       .then((res) => res.json())
       .then((result) => {
+          console.log(result)
+          if (result.id === undefined) {
+            setResponse("Register failed, make sure the information is valid");
+            setLoading(false);
+            return
+          }
           const { id, email, membership_tier, referred, referral_code } = result;
           const store = { id, email, membership_tier, referred, referral_code };
           console.log(store);
-          setResponse(store);
+          setResponse("Register success");
           setIsAuth(true);
-          setLoading(false);
       },
       (error) => {
-          setResponse("Login failed")
+          setResponse("Register failed")
+          setLoading(false);
           console.log(error)
 
       })

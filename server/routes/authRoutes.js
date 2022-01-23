@@ -1,5 +1,6 @@
 const router = require('express').Router();
 const passport = require('../config/passport');
+const { body, validationResult } = require('express-validator');
 const { dbObject } = require('../dbObject') 
 const { stripeObject } = require('../stripeObject') 
 const isAuthenticated = require('../config/isAuthenticated');
@@ -10,7 +11,11 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json(req.user);
 });
 
-router.post('/register', (req, res) => {
+router.post('/register', 
+body('email').isEmail().normalizeEmail(),
+(req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json('Error occured, please make sure you enter a valid email address'); 
   const { email, password, code } = req.body
   if (code) {
     dbObject.getUserByReferralCode(code)
@@ -31,6 +36,8 @@ router.post('/register', (req, res) => {
     })
     .catch((err) => res.status(400).json(err))
   } else {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json('Error occured, please make sure you enter a valid email address'); 
     dbObject.createUser(email, password, 0)
     .then(user => {
       if (code) dbObject.getUserByReferralCode(code)
