@@ -27,7 +27,7 @@ export default function Payout() {
             })
             // .catch((r) =>
         
-    }, [])
+    }, [response])
     function payout(e) {
         e.preventDefault();
         fetch("/api/pay/payout", {
