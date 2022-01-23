@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
-import Row from 'react-bootstrap/Row';       
+import Container from 'react-bootstrap/Container';        
+import Row from 'react-bootstrap/Row';        
 import Col from 'react-bootstrap/Col';       
 import Alert from 'react-bootstrap/Alert';       
 
@@ -25,13 +26,15 @@ export default function TotalPayout(props) {
 
     return (
         <>
-            <Row>
-                <Col>
-                    <Alert variant='dark'>
-                        You currently have {totalPayout} available for payout!
-                    </Alert>
-                </Col>
-            </Row>
+            <Container>
+                <Row>
+                    <Col>
+                        <Alert variant='dark'>
+                            You currently have {totalPayout} available for payout!
+                        </Alert>
+                    </Col>
+                </Row>
+            </Container>
         </>
     );
 }

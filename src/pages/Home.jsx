@@ -14,6 +14,7 @@ import PayoutButton from "../components/PayoutButton";
 import TopUpButton from "../components/TopUpButton";
 import CreateTestReferrals from '../components/CreateTestReferrals';
 import UncollectedReferrals from '../components/UncollectReferrals';
+import AdditionalInfo from '../components/AdditionalInfo';
 
 export default function Home() {
   const { logout } = useContext(AuthContext);
@@ -53,6 +54,7 @@ export default function Home() {
         <ReferralCodeInput userData={userData}/>
         <PlanSelect userData={userData}/>
         <ReferredUsers response= {response} testReferralsResponse={testReferralsResponse} testCollectedResponse={testCollectedResponse} />
+        <AdditionalInfo/>
         <TotalPayout response={response} testReferralsResponse={testReferralsResponse} testCollectedResponse={testCollectedResponse} />
       </Row>
       
