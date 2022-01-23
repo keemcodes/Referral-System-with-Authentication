@@ -3,17 +3,21 @@ import { AuthContext } from '../Auth';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 
 export default function AccessForm() {
 
   const { setIsAuth } = useContext(AuthContext)
+  const [isLoading, setLoading] = useState(false);
   const [data, setData] = useState({
       email: "",
       password: "",
   });
   const [response, setResponse] = useState('');
-  function submit(e) {
+  function Login(e) {
       e.preventDefault();
+      setLoading(true);
       fetch("/api/auth/login", {
           method: 'POST',
           headers: {'Content-Type': 'application/json'},
@@ -26,6 +30,30 @@ export default function AccessForm() {
           console.log(store);
           setResponse(store);
           setIsAuth(true);
+          setLoading(false);
+      },
+      (error) => {
+          setResponse("Login failed")
+          console.log(error)
+
+      })
+  }
+  function Register(e) {
+      e.preventDefault();
+      setLoading(true);
+      fetch("/api/auth/register", {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify(data)
+      })
+      .then((res) => res.json())
+      .then((result) => {
+          const { id, email, membership_tier, referred, referral_code } = result;
+          const store = { id, email, membership_tier, referred, referral_code };
+          console.log(store);
+          setResponse(store);
+          setIsAuth(true);
+          setLoading(false);
       },
       (error) => {
           setResponse("Login failed")
@@ -42,7 +70,7 @@ export default function AccessForm() {
   }
   return (
       <>
-          <Form onSubmit={(e) => submit(e)}>
+          <Form>
             <Form.Group className="mb-3" controlId="email">
               <Form.Label>Email address</Form.Label>
               <Form.Control onChange={(e) => handle(e)} name='email' type="email" placeholder="Enter email" />
@@ -55,35 +83,27 @@ export default function AccessForm() {
               <Form.Label>Password</Form.Label>
               <Form.Control onChange={(e) => handle(e)} name='password' type="password" placeholder="Password" />
             </Form.Group>
-            <Form.Group className="mb-3" controlId="checkbox">
-              <Form.Check type="checkbox" label="Check me out" />
+            <Form.Group className="mb-3" controlId="code">
+              <Form.Label>Referral code</Form.Label>
+              <Form.Control onChange={(e) => handle(e)} name='code' type="code" placeholder="Enter code" />
             </Form.Group>
             <Form.Text className="text-muted">
                 {response.id ? "Access Successful" : response}
             </Form.Text>
-            <Button variant="primary" type="submit">
-              Submit
-            </Button>
+            <Row>
+                <Col>
+                    <Button variant="primary" type="submit" disabled={isLoading} onClick={(e) => Login(e)}>
+                    {isLoading ? 'Loading…' : 'Login'}
+                    </Button>
+                </Col>
+                <Col>
+                    <Button variant="primary" type="submit" disabled={isLoading} onClick={(e) => Register(e)}>
+                    {isLoading ? 'Loading…' : 'Register'}
+                    </Button>
+                </Col>
+            </Row>
+
           </Form>      
-          {/* <div className="access-form">
-              <div className="access-form-header">
-                  <h2>Login</h2>
-              </div>
-              <form onSubmit={(e) => submit(e)}>
-                  <label htmlFor="name">Email</label>
-                  <div className="input-icon-wrap">
-                      <input onChange={(e) => handle(e)} id='email' name='email' placeholder='' type="text" value={data.email}/>
-                  </div>
-                  <label htmlFor="email">Password</label>
-                  <div className="input-icon-wrap">
-                      <input onChange={(e) => handle(e)} id='password' name='password' placeholder='' type="password" value={data.password}/>
-                  </div>
-                  <input type="submit" value="Login" />
-                  <div className="success-message">
-                      <p>{response.id ? "Access Successful" : response}</p>
-                  </div>
-              </form>
-          </div> */}
 
       </>
 

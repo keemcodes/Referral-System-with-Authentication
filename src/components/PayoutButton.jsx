@@ -16,7 +16,7 @@ export default function PayoutButton(props) {
         .then((res) => res.json())
         .then((result) => {
             if (result?.raw?.code) return props.updateResponse(result.raw.code)
-            props.updateResponse(result)
+            props.updateResponse((result) => " " + result)
             console.log(result)
         },
         (error) => {

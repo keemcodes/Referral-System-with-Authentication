@@ -15,7 +15,7 @@ export default function UncollectReferrals(props) {
         })
         .then((res) => res.json())
         .then((result) => {
-            props.updateTestCollectedResponse(() => " " + result)
+            props.updateTestCollectedResponse((result) => " " + result)
             console.log(result)
         },
         (error) => {
@@ -26,11 +26,9 @@ export default function UncollectReferrals(props) {
     return (
         <>
             <OverlayTrigger overlay={<Tooltip id="tooltip">Reset all collected referrals so you can payout again!</Tooltip>}>
-            <span className="d-inline-block justify-content-center">
                 <Button onClick={(e) => uncollectAllReferrals(e)}>
                     Reset Collected Referrals
                 </Button>
-            </span>
             </OverlayTrigger>
             <p>{props.testCollectedResponse}</p>
         </>

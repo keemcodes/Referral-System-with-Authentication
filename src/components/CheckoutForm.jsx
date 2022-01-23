@@ -6,6 +6,8 @@ import {
 } from "@stripe/react-stripe-js";
 
 import Alert from "react-bootstrap/Alert";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
 
 export default function CheckoutForm() {
   const stripe = useStripe();
@@ -78,19 +80,23 @@ export default function CheckoutForm() {
 
   return (
     <>
-      <form id="payment-form" onSubmit={handleSubmit}>
-        <Alert variant='dark'>
-          Use magic card "4000 0000 0000 0077" with any CCV and expiration date!
-        </Alert>
-        <PaymentElement id="payment-element" />
-        <button disabled={isLoading || !stripe || !elements} id="submit">
-          <span id="button-text">
-            {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
-          </span>
-        </button>
-        {/* Show any error or success messages */}
-        {message && <div id="payment-message">{message}</div>}
-      </form>
+    <Container>
+      <Row>
+        <form id="payment-form" onSubmit={handleSubmit}>
+          <Alert variant='dark'>
+            Use magic card "4000 0000 0000 0077" with any CCV and expiration date!
+          </Alert>
+          <PaymentElement id="payment-element" />
+          <button disabled={isLoading || !stripe || !elements} id="submit">
+            <span id="button-text">
+              {isLoading ? <div className="spinner" id="spinner"></div> : "Pay now"}
+            </span>
+          </button>
+          {/* Show any error or success messages */}
+          {message && <div id="payment-message">{message}</div>}
+        </form>
+      </Row>
+    </Container>
     </>
   );
 }

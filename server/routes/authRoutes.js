@@ -22,11 +22,14 @@ router.post('/register', (req, res) => {
         dbObject.updatedReferredStatus(user.id, 1)
         stripeObject.createStripeAccount(email)
         .then(account => dbObject.updateSwipeAccount(user.id, account.id))
-        .then(() => res.status(200).send('Account Created'))
+        .then(() => {
+          req.login(user, (err) => {if (err) console.log(err)})
+          res.status(200).json(req.user)
+        })
       })
-      .catch(() => res.status(400).send('Error creating account, probably already exists'))
+      .catch(() => res.status(400).json('Error creating account, probably already exists'))
     })
-    .catch((err) => res.status(400).send(err))
+    .catch((err) => res.status(400).json(err))
   } else {
     dbObject.createUser(email, password, 0)
     .then(user => {
@@ -35,13 +38,16 @@ router.post('/register', (req, res) => {
         if (userAcc?.id) dbObject.createReferral(userAcc.id, email, 0)
         .then(() => dbObject.updatedReferredStatus(user.id, 1))
       })
-      .catch(() => res.status(400).send('Error'))
+      .catch(() => res.status(400).json('Error'))
       stripeObject.createStripeAccount(email)
       .then(account => dbObject.updateSwipeAccount(user.id, account.id))
-      .then(() => res.status(200).send('Account Created'))
-      .catch(() => res.status(400).send('Error generating stripe account'))
+      .then(() => {
+          req.login(user, (err) => {if (err) console.log(err)})
+          res.status(200).json(req.user)
+      })
+      .catch(() => res.status(400).json('Error generating stripe account'))
     })
-    .catch(() => res.status(400).send('Error creating account, probably already exists'))
+    .catch(() => res.status(400).json('Error creating account, probably already exists'))
   }
 });
 
