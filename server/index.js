@@ -22,6 +22,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 require('./dbObject').dbObject.buildRelationships()
+require('./dbObject').dbObject.sync()
 
 app.use('/api', routes)
 
