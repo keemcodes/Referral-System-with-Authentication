@@ -61,7 +61,8 @@ export default function Home() {
           <Col><TopUpButton /></Col>
           <Col><CreateTestReferrals  testReferralsResponse={testReferralsResponse} updateTestReferralsResponse={updateTestReferralsResponse}/></Col>
           <Col><UncollectedReferrals  testCollectedResponse={testCollectedResponse} updateTestCollectedResponse={updateTestCollectedResponse}/></Col>
-          <Button onClick={() => logout()}>Logout</Button>
+          
+          <Col><Button onClick={() => logout()}>Logout</Button></Col>
         </Row>
       </Container>
       

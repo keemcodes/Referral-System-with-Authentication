@@ -37,23 +37,26 @@ export default function ReferralCodeInput(props) {
     }
     return (
         <>
-            <Form >                
-                <Form.Label htmlFor="basic-url">Your referral code</Form.Label>
-                <InputGroup className="mb-3">
-                    <FormControl
-                    defaultValue={props.userData?.referral_code}
-                    aria-label="Referral code"
-                    aria-describedby="basic-addon2"
-                    name='code'
-                    onChange={(e) => handle(e)}
-                    />
-                    <InputGroup.Text className="text-muted">
-                        {response? response : ''}
-                    </InputGroup.Text>
-                    <Button variant="outline-secondary" id="button-addon2" onClick={(e) => submit(e)}>
-                        Save
-                    </Button>
-                </InputGroup>      
+            <Form >         
+                <Form.Group className="mb-3">
+                    <Form.Label htmlFor="basic-url">Your referral code</Form.Label>
+                    <InputGroup className="mb-3">
+                        <FormControl
+                        defaultValue={props.userData?.referral_code}
+                        aria-label="Referral code"
+                        aria-describedby="basic-addon2"
+                        name='code'
+                        onChange={(e) => handle(e)}
+                        />
+                        <Button variant="outline-secondary" id="button-addon2" onClick={(e) => submit(e)}>
+                            Save
+                        </Button>
+                    </InputGroup>   
+                    <Form.Text className="text-muted">
+                    {response? response : ''}
+                    </Form.Text>   
+                </Form.Group>
+                       
             </Form>
         </>
     );
