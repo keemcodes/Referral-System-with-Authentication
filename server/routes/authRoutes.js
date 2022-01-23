@@ -1,5 +1,4 @@
 const router = require('express').Router();
-const models = require('../models');
 const passport = require('../config/passport');
 const { dbObject } = require('../dbObject') 
 const { stripeObject } = require('../stripeObject') 
@@ -34,9 +33,9 @@ router.post('/register', (req, res) => {
       if (code) dbObject.getUserByReferralCode(code)
       .then(userAcc => {
         if (userAcc?.id) dbObject.createReferral(userAcc.id, email, 0)
-        .then(dbObject.updatedReferredStatus(user.id, 1))
-        .catch(() => res.status(400).send('Error'))
+        .then(() => dbObject.updatedReferredStatus(user.id, 1))
       })
+      .catch(() => res.status(400).send('Error'))
       stripeObject.createStripeAccount(email)
       .then(account => dbObject.updateSwipeAccount(user.id, account.id))
       .then(() => res.status(200).send('Account Created'))
@@ -51,19 +50,6 @@ router.get('/logout', (req, res) => {
   res.json('logout successful');
 });
 
-// router.get('/refresh', (req, res) => {
-//     if (!req.user) {
-//       res.json({});
-//     } else {
-//       res.json({
-//         email: req.user.email,
-//         id: req.user.id,
-//         tier: req.user.membership_tier,
-//         referred: req.user.referred,
-//         code: req.user.referral_code,
-//       });      
-//     }
-// });
 
 router.get('/authenticate', (req, res) => {
     if (!req.user) {

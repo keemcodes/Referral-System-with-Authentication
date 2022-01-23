@@ -1,6 +1,7 @@
 /server/node_modules
 /server/public
 /server/old-files
+/server/old
 /server/notes
 /server/tests
 /server/views

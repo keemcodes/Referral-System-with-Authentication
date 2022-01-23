@@ -12,7 +12,7 @@ router.post("/create-payment-intent", isAuthenticated, async (req, res) => {
   const total = stripeObject.calculateOrderAmount(item);
   console.log(total)
   // Create a PaymentIntent with the order amount and currency
-  stripeObject.createPaymentIntent(total)
+  stripeObject.createPaymentIntent(total, item)
   .then((paymentIntent) => res.send({
     clientSecret: paymentIntent.client_secret,
   }));
@@ -21,8 +21,11 @@ router.post("/create-payment-intent", isAuthenticated, async (req, res) => {
 router.post("/confirm-payment", isAuthenticated, async (req, res) => {
   stripeObject.confirmPayment(req.body.paymentId)
   .then((paymentInfo) => {
-    console.log(paymentInfo.status) // will replace with function that updates the user in db
-    res.send(paymentInfo.status)
+    dbObject.updateTier(req.user.id, paymentInfo.metadata.tier)
+    res.send({
+      status: paymentInfo.status,
+      tier: paymentInfo.metadata.tier
+    })
   })
   .catch((error) => {
     console.log(error)

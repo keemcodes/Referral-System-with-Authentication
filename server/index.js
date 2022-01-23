@@ -21,44 +21,8 @@ app.use(session({ secret: 'notsuuch a secret', resave: true, saveUninitialized: 
 app.use(passport.initialize());
 app.use(passport.session());
 
+require('./dbObject').dbObject.buildRelationships()
 
-// Database testing
-const { dbObject } = require('./dbObject')
-const { stripeObject } = require('./stripeObject')
-// dbObject.dropTables();
-// dbObject.addInitialProjects();
-dbObject.buildRelationships()
-// dbObject.forceSync()
-// dbObject.sync()
-// dbObject.createUserAndReferralTest(10)
-// dbObject.updateRefCode(1, "keemcodes")
-// dbObject.updateCollectedReferrals(2)
-// dbObject.getUserData(2).then(data => console.log(data))
-// dbObject.calculateTotalPayout(2).then((returned) => console.log(dbObject.moneyFormatter(returned)))
-// dbObject.calculateTotalPayoutMap(2).then((returned) => console.log(returned))
-// for(let i = 0; i < 10; i++) {
-//   dbObject.createUserAndReferralTest()
-// }
-// dbObject.findReferralsByUserId(2).then(results => console.log(results.referrals))
-// dbObject.findReferralsByUserIdJSON(2) 
-
-// dbObject.createUserTest(1)
-// .then(returned => console.log(returned))
-// .then()
-//  Routing...
-
-// dbObject.getUserData(2).then( data => {
-//   dbObject.calculateTotalPayout(2).then(result => {
-//     if (result <= 0) return console.log("Nope")
-//     stripeObject.transferPayout(data.stripe_account, result)
-//   })
-// })
-// dbObject.getUserByReferralCode("codingg").then(user => console.log(user?.id))
-// dbObject.updatedReferredStatus(18, 1)
-// dbObject.createUser("ref@ref.com", "password", 0)
-// .then(user => {
-//   if (referred) dbObject.createReferral(user.id, "ref@ref.com", 0)
-// })
 app.use('/api', routes)
 
 app.listen(port, () => {

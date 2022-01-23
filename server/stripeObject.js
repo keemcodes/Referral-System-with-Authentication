@@ -15,12 +15,15 @@ module.exports.stripeObject = {
   
     }
   },
-  createPaymentIntent: async function createPaymentIntent(total) {
+  createPaymentIntent: async function createPaymentIntent(total, tier) {
     return await stripe.paymentIntents.create({
       amount: total,
       currency: "usd",
       automatic_payment_methods: {
         enabled: true,
+      },
+      metadata: {
+        tier: tier
       },
     });
   },

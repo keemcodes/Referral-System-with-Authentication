@@ -6,38 +6,7 @@ const models = require('./models')
 function randomName() {
   return Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
 }
-async function addUser() {
-  try {
-      const akeem2 = await models.User.create({ 
-          firstName: randomName(),
-          lastName: randomName(), 
-      });
-      console.log("Random's auto-generated ID:", akeem2.id);
 
-  }
-  catch (error) {
-      console.error('Unable to insert here is why:', error);
-
-  }
-
-}
-async function addUser2() {
-  try {
-      const akeem2 = await models.User.create({ 
-          email: randomName() + "@test.com",
-          password: "password", 
-          referred: 0,
-           
-      });
-      console.log("Random's auto-generated ID:", akeem2.id);
-
-  }
-  catch (error) {
-      console.error('Unable to insert here is why:', error);
-
-  }
-
-}
 
 function payoutByTier(item) {
   switch(item) {
@@ -64,16 +33,6 @@ function buildRelationships() {
   })
 }
 
-function buildRelationshipsR() {
-  models.User.hasMany(models.Referral, { 
-    as: "referrals" 
-  });
-  models.Referral.belongsTo(models.User, {
-      foreignKey: "referrer_id",
-      as: "tutorial",
-  })
-}
-
 async function findReferrals(referralId) {
   return await models.User.findByPk(referralId, { include: ['referrals']})
 }
@@ -90,6 +49,9 @@ async function updateRefCode(id, code) {
 }
 async function updatedReferredStatus(id, referred) {
   return await models.User.update({ referred: referred },{ where: { id: id }})
+}
+async function updateTier(id, tier) {
+  return await models.User.update({ membership_tier: tier },{ where: { id: id }})
 }
 async function updateSwipeAccount(id, account) {
   return await models.User.update({ stripe_account: account },{ where: { id: id }})
@@ -110,16 +72,6 @@ async function findReferralsByUserId(id) {
 }
 
 async function calculateTotalPayoutMap(id){
-  let total = 0;
-  await findReferralsByUserId(id).then(results => {
-    results.referrals.map((map) => {
-      total+=payoutByTier(map.membership_tier)
-    })
-  })
-  return total
-}
-
-async function collectAllReferrals(id){
   let total = 0;
   await findReferralsByUserId(id).then(results => {
     results.referrals.map((map) => {
@@ -165,6 +117,7 @@ async function sync() {
   });
   console.log("All models were synchronized successfully.");
 }
+
 async function forceSync() {
   await db.sync({force: true})
   .catch( error => {
@@ -172,12 +125,14 @@ async function forceSync() {
   });
   console.log("All models were synchronized successfully.");
 }
+
 async function createUserAndReferralTest(count) {
   for(let i = 0; i < count; i++) {
     let tier = Math.floor(Math.random() * 3) + 1
     await createUserTest(tier).then( (returned) => createReferral(returned.id, returned.email, tier))
   }
 }
+
 async function createReferral(user, email, tier) {
   return await models.Referral.create({ 
     referrer_id: user,
@@ -194,6 +149,7 @@ async function createUser(email, password, referred) {
     membership_tier: 0
   })
 }
+
 async function createUserTest(tier) {
   return await models.User.create({ 
     email: randomName() + "@test.com",
@@ -204,8 +160,8 @@ async function createUserTest(tier) {
 }
 
 async function dropTables() {
-await db.drop();
-console.log("All tables dropped!");
+  await db.drop();
+  console.log("All tables dropped!");
 }
 
 module.exports.dbObject = 
@@ -222,13 +178,12 @@ module.exports.dbObject =
   sync, 
   forceSync, 
   dropTables, 
-  addUser2,
+  updateTier,
   updateRefCode, 
   updateSwipeAccount, 
   updatedReferredStatus,
   updateCollectedReferrals,
   buildRelationships, 
-  buildRelationshipsR, 
   authenticate,
   findReferralsByUserId,
   findReferralsByUserIdJSON,
