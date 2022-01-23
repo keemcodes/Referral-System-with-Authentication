@@ -6,16 +6,14 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-
-
-import PlanSelect from './PlanSelect' 
-import ReferralCodeInput from './ReferralCodeInput' 
-import ReferredUsers from "./ReferredUsers";
-import TotalPayout from "./TotalPayout";
-import PayoutButton from "./PayoutButton";
-import TopUpButton from "./TopUpButton";
-import CreateTestReferrals from './CreateTestReferrals';
-import UncollectedReferrals from './UncollectReferrals';
+import PlanSelect from '../components/PlanSelect' 
+import ReferralCodeInput from '../components/ReferralCodeInput' 
+import ReferredUsers from "../components/ReferredUsers";
+import TotalPayout from "../components/TotalPayout";
+import PayoutButton from "../components/PayoutButton";
+import TopUpButton from "../components/TopUpButton";
+import CreateTestReferrals from '../components/CreateTestReferrals';
+import UncollectedReferrals from '../components/UncollectReferrals';
 
 export default function Home() {
   const { logout } = useContext(AuthContext);
@@ -39,15 +37,13 @@ export default function Home() {
             const { id, email, referred, referral_code, membership_tier } = result
             const data = { id, email, referred, referral_code, membership_tier }
             setUserData(data)
-            // console.log(data)
         },
         (error) => {
             console.log(error)
 
         })
-        // .catch((r) =>
     
-}, [])  
+  }, [])  
   return (
     <>
       <Container>

@@ -1,4 +1,4 @@
-import PaymentComplete from "../components/PaymentComplete";
+import PaymentComplete from "../pages/PaymentComplete";
 
 export default function AfterPayment() {
 

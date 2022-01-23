@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
 
 

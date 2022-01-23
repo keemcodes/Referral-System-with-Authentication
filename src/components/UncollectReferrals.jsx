@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
 import Button from 'react-bootstrap/Button';

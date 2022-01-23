@@ -1,6 +1,6 @@
 import  { useContext } from 'react';
 import { AuthContext } from '../Auth';
-import Home from "../components/Home";
+import Home from "../pages/Home";
 import AccessForm from "../components/AccessForm";
 
 

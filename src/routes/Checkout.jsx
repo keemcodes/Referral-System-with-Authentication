@@ -1,4 +1,4 @@
-import Payment from "../components/Payment";
+import Payment from "../pages/Payment";
 import { useLocation } from 'react-router-dom';
 
 export default function Checkout() {
