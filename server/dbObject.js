@@ -53,7 +53,9 @@ async function updatedReferredStatus(id, referred) {
   return await models.User.update({ referred: referred },{ where: { id: id }})
 }
 async function updateTier(id, tier) {
-  return await models.User.update({ membership_tier: tier },{ where: { id: id }})
+  const userData = await getUserData(id)
+  await models.User.update({ membership_tier: tier },{ where: { id: id }})
+  await models.Referral.update({ membership_tier: tier },{ where: { referred_email: userData.email }})
 }
 async function updateSwipeAccount(id, account) {
   return await models.User.update({ stripe_account: account },{ where: { id: id }})
