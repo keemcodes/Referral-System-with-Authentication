@@ -62,6 +62,9 @@ async function updateSwipeAccount(id, account) {
 async function updateCollectedReferrals(id) {
   return await models.Referral.update({ collected: 1 },{ where: { referrer_id: id }})
 }
+async function uncollectAllReferrals(id) {
+  return await models.Referral.update({ collected: 0 },{ where: { referrer_id: id }})
+}
 
 async function findReferralsByUserIdJSON(id) {
 
@@ -127,10 +130,10 @@ async function forceSync() {
   console.log("All models were synchronized successfully.");
 }
 
-async function createUserAndReferralTest(count) {
+async function createUserAndReferralTest(id, count) {
   for(let i = 0; i < count; i++) {
     let tier = Math.floor(Math.random() * 3) + 1
-    await createUserTest(tier).then( (returned) => createReferral(returned.id, returned.email, tier))
+    await createUserTest(tier).then( (returned) => createReferral(id, returned.email, tier))
   }
 }
 
@@ -184,6 +187,7 @@ module.exports.dbObject =
   updateSwipeAccount, 
   updatedReferredStatus,
   updateCollectedReferrals,
+  uncollectAllReferrals,
   buildRelationships, 
   authenticate,
   findReferralsByUserId,

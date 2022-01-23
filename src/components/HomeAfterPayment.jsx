@@ -1,40 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useStripe } from "@stripe/react-stripe-js";
-
-import Container from 'react-bootstrap/Container';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+import { Navigate, useNavigate } from "react-router-dom";
 import Alert from "react-bootstrap/Alert";
-
-import PlanSelect from './PlanSelect' 
-import ReferralCodeInput from './ReferralCodeInput' 
-import ReferredUsers from "./ReferredUsers";
-import TotalPayout from "./TotalPayout";
-import Payout from "./Payout";
-import TopUpButton from "./TopUpButton";
 
 
 export default function HomeAfterPayment() {
   const stripe = useStripe();
   const [ message, setMessage ] = useState(null);
-  const [ userData, setUserData ] = useState();
-
-  useEffect(() => {
-    fetch("/api/getUserData")
-        .then((res) => res.json())
-        .then((result) => {
-            const { id, email, referred, referral_code, membership_tier } = result
-            const data = { id, email, referred, referral_code, membership_tier }
-            setUserData(data)
-            // console.log(data)
-        },
-        (error) => {
-            console.log(error)
-
-        })
-        // .catch((r) =>
-    
-  }, [])  
+  let navigate = useNavigate();
   useEffect(() => {
     if (!stripe) return;
 
@@ -48,10 +21,13 @@ export default function HomeAfterPayment() {
       switch (paymentIntent.status) {
         case "succeeded":
           console.log(paymentIntent)
-          if (paymentIntent.description != -1) verifyPayment(paymentIntent.id).then(() => {
-
-            setMessage("Payment succeeded!");
-          })
+          setMessage("Payment succeeded!");
+          if (paymentIntent.description != -1) {
+            verifyPayment(paymentIntent.id).then(() => navigate('/'))
+          }
+          else {
+            navigate('/')
+          }
           // verifyPayment(paymentIntent.id);
           break;
         case "processing":
@@ -82,17 +58,8 @@ export default function HomeAfterPayment() {
   }
     return (
     <>
-      <h1>Home</h1>
+      <h1>Payment Status</h1>
       <Alert variant='dark'>{message}</Alert>
-      <ReferralCodeInput userData={userData}/>
-      <PlanSelect userData={userData}/>
-      <ReferredUsers />
-      <Payout />
-      <Container>
-        <Row>
-          <Col><TopUpButton /></Col>
-        </Row>
-      </Container>
       
     </>
   );

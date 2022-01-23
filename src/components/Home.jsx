@@ -1,13 +1,33 @@
 import React, { useEffect, useState } from "react";
 
+import Button from 'react-bootstrap/Button';
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 import PlanSelect from './PlanSelect' 
 import ReferralCodeInput from './ReferralCodeInput' 
 import ReferredUsers from "./ReferredUsers";
-import Payout from "./Payout";
-
-
+import TotalPayout from "./TotalPayout";
+import PayoutButton from "./PayoutButton";
+import TopUpButton from "./TopUpButton";
+import CreateTestReferrals from './CreateTestReferrals';
+import UncollectedReferrals from './UncollectReferrals';
 
 export default function Home() {
+  const [ userData, setUserData ] = useState();
+  const [ response, setResponse ] = useState("");
+  const [ testReferralsResponse, setTestReferralsResponse ] = useState("");
+  const [ testCollectedResponse, setTestCollectedResponse ] = useState("");
+  function updateResponse(input) {
+    setResponse(input)
+  }
+  function updateTestReferralsResponse(input) {
+    setTestReferralsResponse(input)
+  }
+  function updateTestCollectedResponse(input) {
+    setTestCollectedResponse(input)
+  }
   useEffect(() => {
     fetch("/api/getUserData")
         .then((res) => res.json())
@@ -24,16 +44,21 @@ export default function Home() {
         // .catch((r) =>
     
 }, [])  
-
-const [ userData, setUserData ] = React.useState();
   return (
     <>
       <h1>Home</h1>
       <ReferralCodeInput userData={userData}/>
       <PlanSelect userData={userData}/>
-      <ReferredUsers />
-      <Payout />
-
+      <ReferredUsers response= {response} testReferralsResponse={testReferralsResponse} testCollectedResponse={testCollectedResponse} />
+      <TotalPayout response={response} testReferralsResponse={testReferralsResponse} testCollectedResponse={testCollectedResponse} />
+      <Container>
+        <Row>
+          <Col><PayoutButton response={response} updateResponse={updateResponse} /></Col>
+          <Col><TopUpButton /></Col>
+          <Col><CreateTestReferrals  testReferralsResponse={testReferralsResponse} updateTestReferralsResponse={updateTestReferralsResponse}/></Col>
+          <Col><UncollectedReferrals  testCollectedResponse={testCollectedResponse} updateTestCollectedResponse={updateTestCollectedResponse}/></Col>
+        </Row>
+      </Container>
       
     </>
   );

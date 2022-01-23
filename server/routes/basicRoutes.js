@@ -17,7 +17,26 @@ const isAuthenticated = require('../config/isAuthenticated');
       }).catch(error => console.log(error))
     })
 
+    router.post('/uncollectAll', isAuthenticated, (req, res) => {
+      dbObject.uncollectAllReferrals(req.user.id, 1)
+      .then(() => {
+        res.status(200).json('Collected referrals have been reset')
+      })
+      .catch(() => {
+        res.status(400).json('Error')
+      })
 
+    })
+    router.post('/addTestReferredUsers', isAuthenticated, (req, res) => {
+      dbObject.createUserAndReferralTest(req.user.id, 1)
+      .then(() => {
+        res.status(200).json('Test Account Created')
+      })
+      .catch(() => {
+        res.status(400).json('Error')
+      })
+
+    })
     router.post('/updateRefCode',isAuthenticated,
       body('code').isAlphanumeric().not().isEmpty().trim().escape(),
      (req, res) => {
@@ -25,8 +44,12 @@ const isAuthenticated = require('../config/isAuthenticated');
       const errors = validationResult(req);
       if (!errors.isEmpty()) return res.status(400).json('Error occured, please make sure your entry is alphanumeric ');   
       console.log(code)
-      dbObject.updateRefCode(req.user.id, code).catch(error => console.log(error));
-      res.status(200).json('Referral code saved');   
+      dbObject.updateRefCode(req.user.id, code)
+      .then(() => res.status(200).json('Referral code saved'))   
+      .catch(error => {
+        res.status(400).json('Referral code must be unique');   
+        console.log(error)
+      })
     });
   
 module.exports = router;

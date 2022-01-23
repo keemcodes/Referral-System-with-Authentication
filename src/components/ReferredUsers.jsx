@@ -4,7 +4,7 @@ import Accordion from 'react-bootstrap/Accordion';
 import Table from 'react-bootstrap/Table';
 
 
-export default function ReferredUsers() {
+export default function ReferredUsers(props) {
   const [referredUsers, setReferredUsers] = useState([]);
   useEffect(() => {
     fetch("/api/getReferredUsers")
@@ -18,7 +18,7 @@ export default function ReferredUsers() {
         })
         // .catch((r) =>
     
-    }, [])
+    }, [props.response, props.testReferralsResponse, props.testCollectedResponse])
 
     function printTier(tier) {
         switch(tier) {
@@ -52,7 +52,7 @@ export default function ReferredUsers() {
                             </thead>
                             <tbody>
                                 {referredUsers.map((referredUser, index) => (
-                                    <tr key={referredUser.id} className={''} style={{backgroundColor: referredUser.collected==0?'rgba(0, 0, 0, 0.075)':''}}>
+                                    <tr key={referredUser.id} className={''} style={{backgroundColor: referredUser.collected==1?'rgba(0, 0, 0, 0.075)':''}}>
                                         <td>{index + 1}</td>
                                         <td>{referredUser.referred_email}</td>
                                         <td>{printTier(referredUser.membership_tier)}</td>
