@@ -3,14 +3,11 @@ const { dbObject } = require('../dbObject')
 const { stripeObject } = require('../stripeObject') 
 const isAuthenticated = require('../config/isAuthenticated');
 
-
-
 router.post("/create-payment-intent", isAuthenticated, async (req, res) => {
   const { item } = req.body;
   console.log(item)
   const total = stripeObject.calculateOrderAmount(item);
   console.log(total)
-  // Create a PaymentIntent with the order amount and currency
   stripeObject.createPaymentIntent(total, item)
   .then((paymentIntent) => res.send({
     clientSecret: paymentIntent.client_secret,
@@ -33,7 +30,6 @@ router.post("/confirm-payment", isAuthenticated, async (req, res) => {
 });
 
 router.post("/create-stripe-account", isAuthenticated, async (req, res) => {
-  // const { intent } = req.body;
   stripeObject.createStripeAccount(req.body.email)
   .then(account => dbObject.updateSwipeAccount(req.user.id, account.id))
   .then( () => res.status(200).json('Complete') )

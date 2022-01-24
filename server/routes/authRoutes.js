@@ -11,6 +11,7 @@ router.post('/login', passport.authenticate('local'), (req, res) => {
   res.json(req.user);
 });
 
+// Could definitely be refactored with async await and try catch... :)
 router.post('/register', 
 body('email').isEmail().normalizeEmail(),
 (req, res) => {
