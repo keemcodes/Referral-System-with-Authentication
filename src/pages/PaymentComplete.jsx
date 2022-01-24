@@ -7,7 +7,7 @@ import HomeAfterPayment from "./HomeAfterPayment";
 // Make sure to call loadStripe outside of a component’s render to avoid
 // recreating the Stripe object on every render.
 // This is your test publishable API key.
-const stripePromise = loadStripe("pk_test_51KFU7RKhpj6kH5cAFNNPDODkLe6haGvbzQ6FgD9Oym1g4RGaBUe3sTqhEP5gCzNJ1X1tdfNKpEcSEO60OjsjzQMu00jVcAVXdI");
+const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_KEY);
 
 export default function PaymentComplete(props) {
   const [clientSecret, setClientSecret] = useState("");
@@ -32,6 +32,7 @@ export default function PaymentComplete(props) {
 
   return (
     <div>
+      {console.log(process.env.REACT_APP_STRIPE_KEY)}
       {clientSecret && (
         <Elements options={options} stripe={stripePromise}>
           <HomeAfterPayment />
